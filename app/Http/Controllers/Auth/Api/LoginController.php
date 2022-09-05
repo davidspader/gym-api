@@ -11,12 +11,19 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if(!auth()->attempt($credentials)) abort(401, 'Invalid credentials');
+        if(!auth()->attempt($credentials)) {
+            return response()->json( [
+                'error' => [
+                    'message' => 'Invalid credentials'
+                ]
+            ], 401);
+        }
 
         $token = auth()->user()->createToken('auth_token');
 
         return response()->json([
             'data' => [
+                'user' => auth()->user(),
                 'token' => $token->plainTextToken
             ]
         ]);
