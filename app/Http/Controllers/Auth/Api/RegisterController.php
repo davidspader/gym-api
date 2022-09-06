@@ -10,13 +10,21 @@ class RegisterController extends Controller
 {
     public function register(Request $request, User $user)
     {
+        if(!$request->has('name', 'email', 'password')){
+            return response()->json( [
+                'error' => [
+                    'message' => 'Error to create a new user'
+                ]
+            ], 401);
+        }
+
         $userData = $request->only('name', 'email', 'password');
         $userData['password'] = bcrypt($userData['password']);
 
         if(!$user = $user->create($userData)) {
             return response()->json( [
                 'error' => [
-                    'error' => 'Error to create a new user'
+                    'message' => 'Error to create a new user'
                 ]
             ], 401);
         }
