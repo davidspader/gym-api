@@ -52,27 +52,19 @@ class LoginTest extends TestCase
         });
     }
 
-    public function test_logout_endpoint()
+    public function test_login_without_token()
     {
-        $user = User::factory(1)->createOne();
+        $response = $this->postJson('/api/auth/logout');
 
-        $response = $this->postJson('/api/auth/login', [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
+        $response->assertStatus(401);
 
-        dd($response);
+        $response->assertJson(function (AssertableJson $json) {
 
-        $response->assertStatus(200);
-
-        $response->assertJson(function (AssertableJson $json) use($user){
-
-            $json->hasAll(['data.user', 'data.token']);
+            $json->hasAll('message');
 
             $json->whereAll([
-                'data.user.name' => $user['name'],
-                'data.user.email' => $user['email']
-            ])->etc();
+                'message' => 'Unauthenticated.',
+            ]);
         });
     }
 }
