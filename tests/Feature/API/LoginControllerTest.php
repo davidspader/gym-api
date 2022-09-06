@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+class LoginControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -52,7 +52,7 @@ class LoginTest extends TestCase
         });
     }
 
-    public function test_login_without_token()
+    public function test_logout_without_token()
     {
         $response = $this->postJson('/api/auth/logout');
 
