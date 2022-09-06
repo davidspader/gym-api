@@ -34,7 +34,7 @@ class LoginControllerTest extends TestCase
         });
     }
 
-    public function test_wrong_login_endpoint()
+    public function test_fail_login_endpoint()
     {
         $user = User::factory(1)->createOne();
 
