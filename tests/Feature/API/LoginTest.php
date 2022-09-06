@@ -51,4 +51,28 @@ class LoginTest extends TestCase
             ]);
         });
     }
+
+    public function test_logout_endpoint()
+    {
+        $user = User::factory(1)->createOne();
+
+        $response = $this->postJson('/api/auth/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        dd($response);
+
+        $response->assertStatus(200);
+
+        $response->assertJson(function (AssertableJson $json) use($user){
+
+            $json->hasAll(['data.user', 'data.token']);
+
+            $json->whereAll([
+                'data.user.name' => $user['name'],
+                'data.user.email' => $user['email']
+            ])->etc();
+        });
+    }
 }
