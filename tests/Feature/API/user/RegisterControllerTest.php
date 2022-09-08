@@ -3,11 +3,14 @@
 namespace Tests\Feature\API\user;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class RegisterControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_register_endpoint()
     {
         $user = User::factory(1)->makeOne();
