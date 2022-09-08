@@ -37,12 +37,6 @@ class ExerciseControllerTest extends TestCase
 
     public function test_get_exercises_endpoint()
     {
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)->get('api/exercises');
-
-        $response->assertStatus(200);
-
-        $response->assertJsonCount(0);
-
         $exercises = Exercise::factory(5)->create();
 
         $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)->get('api/exercises');
@@ -63,7 +57,7 @@ class ExerciseControllerTest extends TestCase
                 '0.reps' => 'integer',
                 '0.sets' => 'integer',
             ]);
-//
+
             $exercise = $exercises->first();
 
             $json->whereAll([
@@ -72,6 +66,37 @@ class ExerciseControllerTest extends TestCase
                 '0.name' => $exercise->name,
                 '0.reps' => $exercise->reps,
                 '0.sets' => $exercise->sets,
+            ]);
+        });
+    }
+
+    public function test_get_single_exercise_endpoint()
+    {
+        $exercise = Exercise::factory(1)->createOne();
+
+        $response = $this->getJson('/api/exercises/1');
+
+        $response->assertStatus(200);
+
+        $response->assertJson(function (AssertableJson $json) use ($exercise) {
+
+            $json->hasAll(['id', 'user_id', 'name', 'weight', 'reps', 'sets', 'created_at', 'updated_at']);
+
+            $json->whereAllType([
+                'id' => 'integer',
+                'user_id' => 'integer',
+                'name' => 'string',
+                'weight' => 'double|integer',
+                'reps' => 'integer',
+                'sets' => 'integer',
+            ]);
+
+            $json->whereAll([
+                'id' => $exercise->id,
+                'user_id' => $exercise->user_id,
+                'name' => $exercise->name,
+                'reps' => $exercise->reps,
+                'sets' => $exercise->sets,
             ]);
         });
     }

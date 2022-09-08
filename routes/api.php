@@ -29,3 +29,4 @@ Route::prefix('auth')->group(function() {
 });
 
 Route::apiResource('exercises', ExerciseController::class)->middleware('auth:sanctum');
+
