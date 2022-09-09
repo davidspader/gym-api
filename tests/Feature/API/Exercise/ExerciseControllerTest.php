@@ -30,16 +30,11 @@ class ExerciseControllerTest extends TestCase
         $this->token = $response->json()['data']['token'];
     }
 
-    protected function weightValue($value)
-    {
-        return $value("%.4g\n", $value);
-    }
-
     public function test_get_exercises_endpoint()
     {
         $exercises = Exercise::factory(5)->create();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $this->token)->get('api/exercises');
+        $response = $this->getJson('api/exercises');
 
         $response->assertStatus(200);
 
