@@ -118,4 +118,25 @@ class ExerciseControllerTest extends TestCase
             ]);
         });
     }
+
+    public function test_post_exercise_endpoint()
+    {
+        $exercise = Exercise::factory(1)->makeOne()->toArray();
+
+        $response = $this->postJson('/api/exercises', $exercise);
+
+        $response->assertStatus(201);
+
+        $response->assertJson(function (AssertableJson $json) use($exercise){
+
+            $json->hasAll(['id', 'user_id', 'name', 'weight', 'reps', 'sets', 'created_at', 'updated_at']);
+
+            $json->whereAll([
+                'user_id' => $exercise['user_id'],
+                'name' => $exercise['name'],
+                'reps' => $exercise['reps'],
+                'sets' => $exercise['sets'],
+            ])->etc();
+        });
+    }
 }

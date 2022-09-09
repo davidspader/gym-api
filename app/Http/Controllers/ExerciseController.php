@@ -29,4 +29,11 @@ class ExerciseController extends Controller
 
         return response()->json($exercise);
     }
+
+    public function store(Request $request)
+    {
+        $exercise = $this->exercise->create($request->all());
+
+        return response()->json($exercise, 201);
+    }
 }
