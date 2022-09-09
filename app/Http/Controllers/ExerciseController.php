@@ -24,6 +24,9 @@ class ExerciseController extends Controller
     public function show($id)
     {
         $exercise = $this->exercise->find($id);
+
+        $this->authorize('checksUserId', $exercise);
+
         return response()->json($exercise);
     }
 }
