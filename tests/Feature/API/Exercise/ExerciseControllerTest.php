@@ -100,4 +100,19 @@ class ExerciseControllerTest extends TestCase
             ]);
         });
     }
+
+    public function test_get_wrong_user_id_in_single_exercise_endpoint()
+    {
+        User::factory(1)->createOne([
+            "email" => 'test@test.com'
+        ]);
+
+        Exercise::factory(1)->createOne([
+            'user_id' => 2
+        ]);
+
+        $response = $this->getJson('/api/exercises/1');
+
+        $response->assertStatus(403);
+    }
 }
