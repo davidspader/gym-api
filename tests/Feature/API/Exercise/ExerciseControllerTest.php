@@ -114,5 +114,13 @@ class ExerciseControllerTest extends TestCase
         $response = $this->getJson('/api/exercises/1');
 
         $response->assertStatus(403);
+
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll('message')->etc();
+
+            $json->whereAll([
+                'message' => 'This action is unauthorized.'
+            ]);
+        });
     }
 }
