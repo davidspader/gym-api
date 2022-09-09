@@ -34,6 +34,8 @@ class ExerciseController extends Controller
     {
         $exercise = $this->exercise->create($request->all());
 
+        $this->authorize('checksUserId', $exercise);
+
         return response()->json($exercise, 201);
     }
 }
