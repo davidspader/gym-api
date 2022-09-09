@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\API\ExercisesRequest;
 use App\Models\Exercise;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class ExerciseController extends Controller
         return response()->json($exercise);
     }
 
-    public function store(Request $request)
+    public function store(ExercisesRequest $request)
     {
         $exercise = $this->exercise->create($request->all());
 

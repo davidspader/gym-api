@@ -162,4 +162,37 @@ class ExerciseControllerTest extends TestCase
             ]);
         });
     }
+
+    public function test_post_exercise_should_validate_when_try_create_a_invalid_exercise()
+    {
+        $response = $this->postJson('/api/exercises', []);
+
+        $response->assertStatus(422);
+
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'errors']);
+
+            $json->where('errors.user_id.0', 'The user id field is required.')
+                ->where('errors.name.0', 'The name field is required.');
+        });
+
+        $exercise = Exercise::factory(1)->makeOne([
+            'weight' => 'weight',
+            'reps' => 'reps',
+            'sets' => 'sets',
+        ])->toArray();
+
+        $response = $this->postJson('/api/exercises', $exercise);
+
+        $response->assertStatus(422);
+
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'errors']);
+
+            $json->where('errors.weight.0', 'The weight must be a number.')
+                ->where('errors.reps.0', 'The reps must be an integer.')
+                ->where('errors.sets.0', 'The sets must be an integer.');
+        });
+
+    }
 }
