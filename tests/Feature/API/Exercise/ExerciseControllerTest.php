@@ -193,6 +193,34 @@ class ExerciseControllerTest extends TestCase
                 ->where('errors.reps.0', 'The reps must be an integer.')
                 ->where('errors.sets.0', 'The sets must be an integer.');
         });
+    }
 
+    public function test_put_exercise_endpoint()
+    {
+        Exercise::factory(1)->createOne();
+
+        $exercise = [
+          'user_id' => 1,
+          'name' => 'test',
+          'weight' => 25.22,
+          'reps' => 12,
+          'sets' => 4
+        ];
+
+        $response = $this->putJson('/api/exercises/1', $exercise);
+
+        $response->assertStatus(200);
+
+        $response->assertJson(function (AssertableJson $json) use($exercise){
+
+            $json->hasAll(['id', 'user_id', 'name', 'weight', 'reps', 'sets', 'created_at', 'updated_at']);
+
+            $json->whereAll([
+                'user_id' => $exercise['user_id'],
+                'name' => $exercise['name'],
+                'reps' => $exercise['reps'],
+                'sets' => $exercise['sets'],
+            ])->etc();
+        });
     }
 }

@@ -14,7 +14,6 @@ class ExerciseController extends Controller
     public function __construct(private Exercise $exercise)
     {
         $this->user = auth('sanctum')->user();
-
     }
 
     public function index()
@@ -38,5 +37,16 @@ class ExerciseController extends Controller
         $this->authorize('checksUserId', $exercise);
 
         return response()->json($exercise, 201);
+    }
+
+    public function update($id, ExercisesRequest $request)
+    {
+        $exercise = $this->exercise->find($id);
+
+        $this->authorize('checksUserId', $exercise);
+
+        $exercise->update($request->all());
+
+        return response()->json($exercise);
     }
 }
