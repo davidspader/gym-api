@@ -223,4 +223,34 @@ class ExerciseControllerTest extends TestCase
             ])->etc();
         });
     }
+
+    public function test_get_wrong_user_id_in_put_exercise_endpoint()
+    {
+        User::factory(1)->createOne([
+            "email" => 'test@test.com'
+        ]);
+
+        Exercise::factory(1)->createOne();
+
+        $exercise = [
+            'user_id' => 2,
+            'name' => 'test',
+            'weight' => 25.22,
+            'reps' => 12,
+            'sets' => 4
+        ];
+
+        $response = $this->putJson('/api/exercises/1', $exercise);
+
+        $response->assertStatus(403);
+
+
+//        $response->assertJson(function (AssertableJson $json) {
+//            $json->hasAll('message')->etc();
+//
+//            $json->whereAll([
+//                'message' => 'This action is unauthorized.'
+//            ]);
+//        });
+    }
 }
