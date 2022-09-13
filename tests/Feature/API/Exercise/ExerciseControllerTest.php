@@ -288,4 +288,30 @@ class ExerciseControllerTest extends TestCase
                 ->where('errors.sets.0', 'The sets must be an integer.');
         });
     }
+
+    public function test_patch_exercise_endpoint()
+    {
+        $exercise = Exercise::factory(1)->createOne();
+
+        $patch = [
+            'user_id' => 1,
+            'name' => 'name test'
+        ];
+
+        $response = $this->patchJson('/api/exercises/1', $patch);
+
+        $response->assertStatus(200);
+
+        $response->assertJson(function (AssertableJson $json) use($exercise){
+
+            $json->hasAll(['id', 'user_id', 'name', 'weight', 'reps', 'sets', 'created_at', 'updated_at']);
+
+            $json->whereAll([
+                'user_id' => $exercise['user_id'],
+                'name' => 'name test',
+                'reps' => $exercise['reps'],
+                'sets' => $exercise['sets'],
+            ])->etc();
+        });
+    }
 }
