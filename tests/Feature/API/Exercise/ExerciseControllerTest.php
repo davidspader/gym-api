@@ -240,17 +240,52 @@ class ExerciseControllerTest extends TestCase
             'sets' => 4
         ];
 
+        $this->putJson('/api/exercises/1', $exercise);
+
+        $exercise['user_id'] = 1;
+
         $response = $this->putJson('/api/exercises/1', $exercise);
 
         $response->assertStatus(403);
 
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll('message')->etc();
 
-//        $response->assertJson(function (AssertableJson $json) {
-//            $json->hasAll('message')->etc();
-//
-//            $json->whereAll([
-//                'message' => 'This action is unauthorized.'
-//            ]);
-//        });
+            $json->whereAll([
+                'message' => 'This action is unauthorized.'
+            ]);
+        });
+    }
+
+    public function test_put_exercise_should_validate_when_try_create_a_invalid_exercise()
+    {
+        Exercise::factory(1)->createOne();
+
+        $response = $this->putJson('/api/exercises/1', []);
+
+        $response->assertStatus(422);
+
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'errors']);
+
+            $json->where('errors.user_id.0', 'The user id field is required.')
+                ->where('errors.name.0', 'The name field is required.');
+        });
+
+        $response = $this->putJson('/api/exercises/1', [
+            'user_id' => 1,
+            'name' => 'test',
+            'weight' => 'weight',
+            'reps' => 'reps',
+            'sets' => 'sets'
+        ]);
+
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll(['message', 'errors']);
+
+            $json->where('errors.weight.0', 'The weight must be a number.')
+                ->where('errors.reps.0', 'The reps must be an integer.')
+                ->where('errors.sets.0', 'The sets must be an integer.');
+        });
     }
 }
