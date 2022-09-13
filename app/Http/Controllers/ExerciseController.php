@@ -49,4 +49,15 @@ class ExerciseController extends Controller
 
         return response()->json($exercise);
     }
+
+    public function destroy($id)
+    {
+        $exercise = $this->exercise->find($id);
+
+        $this->authorize('checksUserId', $exercise);
+
+        $exercise->delete();
+
+        return response()->json([], 204);
+    }
 }

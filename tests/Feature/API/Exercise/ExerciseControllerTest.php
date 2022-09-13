@@ -376,4 +376,36 @@ class ExerciseControllerTest extends TestCase
                 ->where('errors.sets.0', 'The sets must be an integer.');
         });
     }
+
+    public function test_delete_exercise_endpoint()
+    {
+        Exercise::factory(1)->createOne();
+
+        $response = $this->deleteJson('/api/exercises/1');
+
+        $response->assertStatus(204);
+    }
+
+    public function test_delete_wrong_user_id_in_patch_exercise_endpoint()
+    {
+        User::factory(1)->createOne([
+            "email" => 'test@test.com'
+        ]);
+
+        Exercise::factory(1)->createOne([
+            'user_id' => 2
+        ]);
+
+        $response = $this->deleteJson('/api/exercises/1');
+
+        $response->assertStatus(403);
+
+        $response->assertJson(function (AssertableJson $json) {
+            $json->hasAll('message')->etc();
+
+            $json->whereAll([
+                'message' => 'This action is unauthorized.'
+            ]);
+        });
+    }
 }
