@@ -15,7 +15,6 @@ class ExerciseControllerTest extends TestCase
     use RefreshDatabase;
 
     private User $user;
-    private $token;
 
     protected function setUp(): void
     {
@@ -26,8 +25,6 @@ class ExerciseControllerTest extends TestCase
             'email' => $this->user->email,
             'password' => 'password',
         ]);
-
-        $this->token = $response->json()['data']['token'];
     }
 
     public function test_get_exercises_endpoint()
