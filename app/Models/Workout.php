@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Exercise extends Model
+class Workout extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id', 'name', 'weight', 'reps', 'sets'
-    ];
-
     public function workout()
     {
-        return $this->belongsToMany(Workout::class, 'exercises_workout');
+        return $this->belongsToMany(Exercise::class, 'exercises_workout');
     }
 }
