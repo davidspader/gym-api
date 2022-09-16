@@ -10,11 +10,11 @@ class Exercise extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'weight', 'reps', 'sets'
+        'user_id', 'name', 'weight', 'reps', 'sets', 'id'
     ];
 
     public function workout()
     {
-        return $this->belongsToMany(Workout::class, 'exercises_workout');
+        return $this->belongsToMany(Workout::class, 'exercise_workout');
     }
 }
