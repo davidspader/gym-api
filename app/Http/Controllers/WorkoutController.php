@@ -16,6 +16,6 @@ class WorkoutController extends Controller
 
     public function index()
     {
-        return response()->json($this->workout->all()->where('user_id', $this->user['id']));
+        return $this->workout::with('exercises')->where('user_id', $this->user['id'])->get();
     }
 }
