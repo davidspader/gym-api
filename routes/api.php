@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\Api\LoginController;
 use App\Http\Controllers\Auth\Api\RegisterController;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,6 @@ Route::prefix('auth')->group(function() {
 });
 
 Route::apiResource('exercises', ExerciseController::class)->middleware('auth:sanctum');
+
+Route::apiResource('workouts', WorkoutController::class)->middleware('auth:sanctum');
 
