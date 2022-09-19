@@ -21,7 +21,7 @@ class ExerciseControllerTest extends TestCase
         parent::setUp();
         $this->user = User::factory(1)->createOne();
 
-        $response = $this->postJson('/api/auth/login', [
+        $this->postJson('/api/auth/login', [
             'email' => $this->user->email,
             'password' => 'password',
         ]);
