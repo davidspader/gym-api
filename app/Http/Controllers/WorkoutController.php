@@ -18,4 +18,11 @@ class WorkoutController extends Controller
     {
         return $this->workout::with('exercises')->where('user_id', $this->user['id'])->get();
     }
+
+    public function show($id)
+    {
+        $workout = $this->workout::with('exercises')->where('id', $id)->get();
+
+        return response()->json($workout);
+    }
 }
