@@ -57,4 +57,32 @@ class WorkoutControllerTest extends TestCase
             ]);
         });
     }
+
+    public function test_get_single_workout_endpoint()
+    {
+        $workout = Workout::factory(1)->createOne();
+
+        $response = $this->getJson('/api/workouts/1');
+
+        $response->assertStatus(200);
+
+        $response->assertJson(function (AssertableJson $json) use ($workout) {
+
+            $json->hasAll(['0.id', '0.user_id', '0.name', '0.exercises']);
+
+            $json->whereAllType([
+                '0.id' => 'integer',
+                '0.user_id' => 'integer',
+                '0.name' => 'string',
+                '0.exercises' => 'array'
+            ]);
+
+            $json->whereAll([
+                '0.id' => $workout->id,
+                '0.user_id' => $workout->user_id,
+                '0.name' => $workout->name,
+                '0.exercises' => $workout->exercises
+            ]);
+        });
+    }
 }
