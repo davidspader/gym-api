@@ -9,8 +9,9 @@ import (
 )
 
 var (
-	DBString = ""
-	Port     = 0
+	DBString  = ""
+	Port      = 0
+	SecretKey []byte
 )
 
 func LoadConfig() {
@@ -26,4 +27,6 @@ func LoadConfig() {
 	}
 
 	DBString = os.Getenv("DB_URL")
+
+	SecretKey = []byte(os.Getenv("SECRET_KEY"))
 }
