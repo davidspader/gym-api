@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"gym-api/src/middlewares"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -17,7 +18,17 @@ func configRoutes(r *mux.Router) *mux.Router {
 	routes := usersRoutes
 
 	for _, route := range routes {
-		r.HandleFunc(route.URI, route.Function).Methods(route.Method)
+		if route.Authentication {
+			r.HandleFunc(
+				route.URI,
+				middlewares.Logger(middlewares.VerifyAuthenticateUser(route.Function)),
+			).Methods(route.Method)
+		} else {
+			r.HandleFunc(
+				route.URI,
+				middlewares.Logger(route.Function),
+			).Methods(route.Method)
+		}
 	}
 
 	return r
