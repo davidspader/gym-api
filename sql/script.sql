@@ -1,7 +1,12 @@
+DROP TABLE exercises_workout;
+DROP TABLE exercises;
+DROP TABLE workouts;
+DROP TABLE users;
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password CHAR(60) NOT NULL
 );
 
