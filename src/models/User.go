@@ -15,6 +15,11 @@ type User struct {
 	Password string `json:"password,omitempty"`
 }
 
+type ChangePassword struct {
+	New     string `json:"new"`
+	Current string `json:"current"`
+}
+
 func (user *User) Prepare(step string) error {
 	if err := user.validate(step); err != nil {
 		return err

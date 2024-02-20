@@ -78,3 +78,35 @@ func (repo Users) GetByEmail(email string) (models.User, error) {
 
 	return user, nil
 }
+
+func (repo Users) GetPassword(userID uint64) (string, error) {
+	row, err := repo.db.Query("select password from users where id = $1", userID)
+	if err != nil {
+		return "", err
+	}
+	defer row.Close()
+
+	var user models.User
+
+	if row.Next() {
+		if err = row.Scan(&user.Password); err != nil {
+			return "", err
+		}
+	}
+
+	return user.Password, nil
+}
+
+func (repo Users) UpdatePassword(userID uint64, password string) error {
+	statement, err := repo.db.Prepare("update users set password = $1 where id = $2")
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(password, userID); err != nil {
+		return err
+	}
+
+	return nil
+}

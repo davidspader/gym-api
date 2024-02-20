@@ -24,4 +24,10 @@ var usersRoutes = []route{
 		Function:       controllers.DeleteUser,
 		Authentication: true,
 	},
+	{
+		URI:            "/users/{userId}/change-password",
+		Method:         http.MethodPost,
+		Function:       controllers.ChangePassword,
+		Authentication: true,
+	},
 }
