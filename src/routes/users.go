@@ -12,4 +12,10 @@ var usersRoutes = []route{
 		Function:       controllers.CreateUser,
 		Authentication: false,
 	},
+	{
+		URI:            "/users/{userId}",
+		Method:         http.MethodPut,
+		Function:       controllers.UpdateUser,
+		Authentication: true,
+	},
 }

@@ -13,28 +13,6 @@ func NewUsersRepository(db *sql.DB) *Users {
 	return &Users{db}
 }
 
-// func (repo Users) Create(user models.User) (uint64, error) {
-// 	statement, err := repo.db.Prepare(
-// 		"INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id",
-// 	)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-// 	defer statement.Close()
-
-// 	result, err := statement.Exec(user.Name, user.Email, user.Password)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-
-// 	lastInsertID, err := result.LastInsertId()
-// 	if err != nil {
-// 		return 0, err
-// 	}
-
-// 	return uint64(lastInsertID), nil
-// }
-
 func (repo Users) Create(user models.User) (uint64, error) {
 	statement, err := repo.db.Prepare(
 		"INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id",
@@ -51,4 +29,38 @@ func (repo Users) Create(user models.User) (uint64, error) {
 	}
 
 	return userID, nil
+}
+
+func (repo Users) Update(ID uint64, user models.User) error {
+	statement, err := repo.db.Prepare(
+		"update users set name = $1, email = $2 where id = $3",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(user.Name, user.Email, ID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (repo Users) GetByEmail(email string) (models.User, error) {
+	row, err := repo.db.Query("select id, password from users where email = $1", email)
+	if err != nil {
+		return models.User{}, err
+	}
+	defer row.Close()
+
+	var user models.User
+
+	if row.Next() {
+		if err = row.Scan(&user.ID, &user.Password); err != nil {
+			return models.User{}, err
+		}
+	}
+
+	return user, nil
 }
