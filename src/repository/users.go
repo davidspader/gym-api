@@ -47,6 +47,20 @@ func (repo Users) Update(ID uint64, user models.User) error {
 	return nil
 }
 
+func (repo Users) Delete(ID uint64) error {
+	statement, err := repo.db.Prepare("delete from users where id = $1")
+	if err != nil {
+		return nil
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(ID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (repo Users) GetByEmail(email string) (models.User, error) {
 	row, err := repo.db.Query("select id, password from users where email = $1", email)
 	if err != nil {

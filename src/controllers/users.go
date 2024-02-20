@@ -101,3 +101,39 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	responses.SendJSON(w, http.StatusNoContent, nil)
 }
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	userIDInToken, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	if userID != userIDInToken {
+		err = errors.New("you cannot delete a user other than your own")
+		responses.SendError(w, http.StatusForbidden, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.NewUsersRepository(db)
+	if err = repo.Delete(userID); err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.SendJSON(w, http.StatusNoContent, nil)
+}
