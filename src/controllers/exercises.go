@@ -9,6 +9,9 @@ import (
 	"gym-api/src/responses"
 	"io"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func CreateExercise(w http.ResponseWriter, r *http.Request) {
@@ -52,4 +55,35 @@ func CreateExercise(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responses.SendJSON(w, http.StatusCreated, exercise)
+}
+
+func GetExercise(w http.ResponseWriter, r *http.Request) {
+	userID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	params := mux.Vars(r)
+	exerciseID, err := strconv.ParseUint(params["exerciseId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.NewExercisesRepository(db)
+	exercise, err := repo.GetExerciseByID(exerciseID, userID)
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.SendJSON(w, http.StatusOK, exercise)
 }
