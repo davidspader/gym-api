@@ -57,3 +57,34 @@ func (repo Exercises) GetExerciseByID(exerciseID uint64, userID uint64) (models.
 
 	return exercise, nil
 }
+
+func (repo Exercises) GetExercisesByUserID(userID uint64) ([]models.Exercise, error) {
+	rows, err := repo.db.Query(
+		"SELECT * FROM exercises WHERE user_id = $1",
+		userID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var exercises []models.Exercise
+
+	for rows.Next() {
+		var exercise models.Exercise
+
+		if err = rows.Scan(
+			&exercise.ID,
+			&exercise.UserID,
+			&exercise.Name,
+			&exercise.Weight,
+			&exercise.Reps,
+		); err != nil {
+			return nil, err
+		}
+
+		exercises = append(exercises, exercise)
+	}
+
+	return exercises, nil
+}
