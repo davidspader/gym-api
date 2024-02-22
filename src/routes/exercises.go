@@ -24,4 +24,10 @@ var exercisesRoutes = []route{
 		Function:       controllers.GetExercisesByUser,
 		Authentication: true,
 	},
+	{
+		URI:            "/exercises/{exerciseId}",
+		Method:         http.MethodPut,
+		Function:       controllers.UpdateExercise,
+		Authentication: true,
+	},
 }

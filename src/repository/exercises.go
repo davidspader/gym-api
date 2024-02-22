@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"gym-api/src/models"
 )
 
@@ -87,4 +88,21 @@ func (repo Exercises) GetExercisesByUserID(userID uint64) ([]models.Exercise, er
 	}
 
 	return exercises, nil
+}
+
+func (repo Exercises) Update(exerciseID uint64, userID uint64, exercise models.Exercise) error {
+	statement, err := repo.db.Prepare(
+		"UPDATE exercises SET name = $1, weight = $2, reps = $3 WHERE id = $4 AND user_id = $5",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(exercise.Name, exercise.Weight, exercise.Reps, exerciseID, userID); err != nil {
+		return err
+	}
+
+	fmt.Print("teste")
+	return nil
 }

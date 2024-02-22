@@ -125,3 +125,62 @@ func GetExercisesByUser(w http.ResponseWriter, r *http.Request) {
 
 	responses.SendJSON(w, http.StatusOK, exercises)
 }
+
+func UpdateExercise(w http.ResponseWriter, r *http.Request) {
+	userID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	params := mux.Vars(r)
+	exerciseID, err := strconv.ParseUint(params["exerciseId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.NewExercisesRepository(db)
+	exerciseInDatabase, err := repo.GetExerciseByID(exerciseID, userID)
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if exerciseInDatabase.UserID != userID {
+		err = errors.New("it is not possible to update an exercise that is not yours")
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	bodyRequest, err := io.ReadAll(r.Body)
+	if err != nil {
+		responses.SendError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	var exercise models.Exercise
+	if err = json.Unmarshal(bodyRequest, &exercise); err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if err = exercise.Prepare(); err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if err = repo.Update(exerciseID, userID, exercise); err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.SendJSON(w, http.StatusNoContent, nil)
+}
