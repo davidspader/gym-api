@@ -106,3 +106,19 @@ func (repo Exercises) Update(exerciseID uint64, userID uint64, exercise models.E
 	fmt.Print("teste")
 	return nil
 }
+
+func (repo Exercises) Delete(exerciseID uint64, userID uint64) error {
+	statement, err := repo.db.Prepare(
+		"DELETE FROM exercises WHERE id = $1 AND user_id = $2",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(exerciseID, userID); err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -30,4 +30,10 @@ var exercisesRoutes = []route{
 		Function:       controllers.UpdateExercise,
 		Authentication: true,
 	},
+	{
+		URI:            "/exercises/{exerciseId}",
+		Method:         http.MethodDelete,
+		Function:       controllers.DeleteExercise,
+		Authentication: true,
+	},
 }

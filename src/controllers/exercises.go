@@ -184,3 +184,45 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 
 	responses.SendJSON(w, http.StatusNoContent, nil)
 }
+
+func DeleteExercise(w http.ResponseWriter, r *http.Request) {
+	userID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	params := mux.Vars(r)
+	exerciseID, err := strconv.ParseUint(params["exerciseId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.NewExercisesRepository(db)
+	exerciseInDatabase, err := repo.GetExerciseByID(exerciseID, userID)
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if exerciseInDatabase.UserID != userID {
+		err = errors.New("it is not possible to delete an exercise that is not yours")
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if err = repo.Delete(exerciseID, userID); err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.SendJSON(w, http.StatusNoContent, nil)
+}
