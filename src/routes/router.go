@@ -18,6 +18,7 @@ func configRoutes(r *mux.Router) *mux.Router {
 	routes := usersRoutes
 	routes = append(routes, rotaLogin)
 	routes = append(routes, exercisesRoutes...)
+	routes = append(routes, workoutsRotues...)
 
 	for _, route := range routes {
 		if route.Authentication {
