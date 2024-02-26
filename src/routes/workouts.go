@@ -12,4 +12,10 @@ var workoutsRotues = []route{
 		Function:       controllers.CreateWorkout,
 		Authentication: true,
 	},
+	{
+		URI:            "/workouts/user/{userId}",
+		Method:         http.MethodGet,
+		Function:       controllers.GetWorkoutsByUser,
+		Authentication: true,
+	},
 }

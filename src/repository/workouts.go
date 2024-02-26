@@ -30,3 +30,32 @@ func (repo Workouts) Create(workout models.Workout) (uint64, error) {
 
 	return workoutID, nil
 }
+
+func (repo Workouts) GetWorkoutsByUserID(userID uint64) ([]models.Workout, error) {
+	rows, err := repo.db.Query(
+		"SELECT * FROM workouts WHERE user_id = $1",
+		userID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var workouts []models.Workout
+
+	for rows.Next() {
+		var workout models.Workout
+
+		if err = rows.Scan(
+			&workout.ID,
+			&workout.UserID,
+			&workout.Name,
+		); err != nil {
+			return nil, err
+		}
+
+		workouts = append(workouts, workout)
+	}
+
+	return workouts, nil
+}
