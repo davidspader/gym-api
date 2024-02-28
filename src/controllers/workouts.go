@@ -94,3 +94,25 @@ func GetWorkoutsByUser(w http.ResponseWriter, r *http.Request) {
 
 	responses.SendJSON(w, http.StatusOK, workouts)
 }
+
+func UpdateWorkout(w http.ResponseWriter, r *http.Request) {
+	userID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	params := mux.Vars(r)
+	workoutID, err := strconv.ParseUint(params["workoutId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+}

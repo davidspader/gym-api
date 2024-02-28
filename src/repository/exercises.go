@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 	"gym-api/src/models"
 )
 
@@ -103,7 +102,6 @@ func (repo Exercises) Update(exerciseID uint64, userID uint64, exercise models.E
 		return err
 	}
 
-	fmt.Print("teste")
 	return nil
 }
 
