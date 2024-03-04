@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"gym-api/src/auth"
 	"gym-api/src/database"
 	"gym-api/src/models"
@@ -115,4 +116,6 @@ func UpdateWorkout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer db.Close()
+
+	fmt.Printf(string(rune(userID)), workoutID)
 }
