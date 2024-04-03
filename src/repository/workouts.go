@@ -101,6 +101,22 @@ func (repo Workouts) Update(workoutID uint64, userID uint64, workout models.Work
 	return nil
 }
 
+func (repo Workouts) Delete(workoutID uint64, userID uint64) error {
+	statement, err := repo.db.Prepare(
+		"DELETE FROM workouts WHERE id = $1 AND user_id = $2",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(workoutID, userID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (repo Workouts) AddExerciseToWorkout(workoutID uint64, exerciseID uint64) error {
 	statement, err := repo.db.Prepare(
 		"INSERT INTO exercises_workout (workout_id, exercise_id) VALUES ($1, $2)",

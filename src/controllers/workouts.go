@@ -154,6 +154,48 @@ func UpdateWorkout(w http.ResponseWriter, r *http.Request) {
 	responses.SendJSON(w, http.StatusNoContent, nil)
 }
 
+func DeleteWorkout(w http.ResponseWriter, r *http.Request) {
+	userID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	params := mux.Vars(r)
+	workoutID, err := strconv.ParseUint(params["workoutId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.NewWorkoutsRepository(db)
+	workoutInDatabase, err := repo.GetWorkoutNameByID(workoutID)
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if workoutInDatabase.UserID != userID {
+		err = errors.New("it is not possible to delete an workout that is not yours")
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if err = repo.Delete(workoutID, userID); err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.SendJSON(w, http.StatusNoContent, nil)
+}
+
 func AddExercises(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userId"], 10, 64)
