@@ -31,7 +31,7 @@ func (repo Workouts) Create(workout models.Workout) (uint64, error) {
 	return workoutID, nil
 }
 
-func (repo Workouts) GetWorkoutsByUserID(userID uint64) ([]models.Workout, error) {
+func (repo Workouts) GetWorkoutsNamesByUserID(userID uint64) ([]models.Workout, error) {
 	rows, err := repo.db.Query(
 		"SELECT * FROM workouts WHERE user_id = $1",
 		userID,
@@ -60,7 +60,32 @@ func (repo Workouts) GetWorkoutsByUserID(userID uint64) ([]models.Workout, error
 	return workouts, nil
 }
 
-func (repo Workouts) Update(workoutID uint64, userID uint64, exercise models.Workout) error {
+func (repo Workouts) GetWorkoutNameByID(ID uint64) (models.Workout, error) {
+	row, err := repo.db.Query(
+		"SELECT * FROM workouts WHERE id = $1",
+		ID,
+	)
+	if err != nil {
+		return models.Workout{}, err
+	}
+	defer row.Close()
+
+	var workout models.Workout
+
+	if row.Next() {
+		if err = row.Scan(
+			&workout.ID,
+			&workout.UserID,
+			&workout.Name,
+		); err != nil {
+			return models.Workout{}, err
+		}
+	}
+
+	return workout, nil
+}
+
+func (repo Workouts) Update(workoutID uint64, userID uint64, workout models.Workout) error {
 	statement, err := repo.db.Prepare(
 		"UPDATE workouts SET name = $1 WHERE id = $2 AND user_id = $3",
 	)
@@ -69,7 +94,7 @@ func (repo Workouts) Update(workoutID uint64, userID uint64, exercise models.Wor
 	}
 	defer statement.Close()
 
-	if _, err = statement.Exec(exercise.Name, workoutID, userID); err != nil {
+	if _, err = statement.Exec(workout.Name, workoutID, userID); err != nil {
 		return err
 	}
 

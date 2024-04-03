@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"gym-api/src/auth"
 	"gym-api/src/database"
 	"gym-api/src/models"
@@ -87,7 +86,7 @@ func GetWorkoutsByUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewWorkoutsRepository(db)
-	workouts, err := repo.GetWorkoutsByUserID(userID)
+	workouts, err := repo.GetWorkoutsNamesByUserID(userID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -117,7 +116,42 @@ func UpdateWorkout(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	fmt.Printf(string(rune(userID)), workoutID)
+	repo := repository.NewWorkoutsRepository(db)
+	workoutInDatabase, err := repo.GetWorkoutNameByID(workoutID)
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if workoutInDatabase.UserID != userID {
+		err = errors.New("it is not possible to update an workout that is not yours")
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	bodyRequest, err := io.ReadAll(r.Body)
+	if err != nil {
+		responses.SendError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	var workout models.Workout
+	if err = json.Unmarshal(bodyRequest, &workout); err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if err = workout.Prepare(); err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	if err = repo.Update(workoutID, userID, workout); err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.SendJSON(w, http.StatusNoContent, nil)
 }
 
 func AddExercises(w http.ResponseWriter, r *http.Request) {
