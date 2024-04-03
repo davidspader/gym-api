@@ -117,6 +117,46 @@ func (repo Workouts) Delete(workoutID uint64, userID uint64) error {
 	return nil
 }
 
+func (repo Workouts) GetWorkoutByID(ID uint64, userID uint64) (models.Workout, error) {
+	row, err := repo.db.Query(
+		`
+        SELECT w.id AS workout_id, w.user_id, w.name AS workout_name,
+               e.id AS exercise_id, e.name AS exercise_name,
+               e.weight, e.reps
+        FROM workouts w
+        LEFT JOIN exercises_workout ew ON w.id = ew.workout_id
+        LEFT JOIN exercises e ON ew.exercise_id = e.id
+        WHERE w.id = $1 AND w.user_id = $2
+        `,
+		ID,
+		userID,
+	)
+	if err != nil {
+		return models.Workout{}, err
+	}
+	defer row.Close()
+
+	var workout models.Workout
+
+	for row.Next() {
+		var exercise models.Exercise
+		if err := row.Scan(
+			&workout.ID,
+			&workout.UserID,
+			&workout.Name,
+			&exercise.ID,
+			&exercise.Name,
+			&exercise.Weight,
+			&exercise.Reps,
+		); err != nil {
+			return models.Workout{}, err
+		}
+		workout.Exercises = append(workout.Exercises, exercise)
+	}
+
+	return workout, nil
+}
+
 func (repo Workouts) AddExerciseToWorkout(workoutID uint64, exerciseID uint64) error {
 	statement, err := repo.db.Prepare(
 		"INSERT INTO exercises_workout (workout_id, exercise_id) VALUES ($1, $2)",

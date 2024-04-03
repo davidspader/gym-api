@@ -196,6 +196,38 @@ func DeleteWorkout(w http.ResponseWriter, r *http.Request) {
 	responses.SendJSON(w, http.StatusNoContent, nil)
 }
 
+func GetWorkout(w http.ResponseWriter, r *http.Request) {
+	userID, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	params := mux.Vars(r)
+	workoutID, err := strconv.ParseUint(params["workoutId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.NewWorkoutsRepository(db)
+	workout, err := repo.GetWorkoutByID(workoutID, userID)
+
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	responses.SendJSON(w, http.StatusOK, workout)
+}
+
 func AddExercises(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userId"], 10, 64)

@@ -31,6 +31,12 @@ var workoutsRotues = []route{
 		Authentication: true,
 	},
 	{
+		URI:            "/workouts/{workoutId}",
+		Method:         http.MethodGet,
+		Function:       controllers.GetWorkout,
+		Authentication: true,
+	},
+	{
 		URI:            "/workouts/user/{userId}/addExercise",
 		Method:         http.MethodPost,
 		Function:       controllers.AddExercises,
