@@ -75,3 +75,19 @@ func (repo Workouts) Update(workoutID uint64, userID uint64, exercise models.Wor
 
 	return nil
 }
+
+func (repo Workouts) AddExerciseToWorkout(workoutID uint64, exerciseID uint64) error {
+	statement, err := repo.db.Prepare(
+		"INSERT INTO exercises_workout (workout_id, exercise_id) VALUES ($1, $2)",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(workoutID, exerciseID); err != nil {
+		return err
+	}
+
+	return nil
+}
