@@ -13,7 +13,7 @@ var workoutsRotues = []route{
 		Authentication: true,
 	},
 	{
-		URI:            "/workouts/user/{userId}",
+		URI:            "/users/{userId}/workouts",
 		Method:         http.MethodGet,
 		Function:       controllers.GetWorkoutsByUser,
 		Authentication: true,
@@ -37,13 +37,13 @@ var workoutsRotues = []route{
 		Authentication: true,
 	},
 	{
-		URI:            "/workouts/user/{userId}/addExercise",
+		URI:            "/workouts/addExercise/{userId}",
 		Method:         http.MethodPost,
 		Function:       controllers.AddExercises,
 		Authentication: true,
 	},
 	{
-		URI:            "/workouts/user/{userId}/removeExercise",
+		URI:            "/workouts/removeExercise/{userId}",
 		Method:         http.MethodDelete,
 		Function:       controllers.RemoveExercises,
 		Authentication: true,
