@@ -292,3 +292,68 @@ func AddExercises(w http.ResponseWriter, r *http.Request) {
 
 	responses.SendJSON(w, http.StatusCreated, nil)
 }
+
+func RemoveExercises(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	userID, err := strconv.ParseUint(params["userId"], 10, 64)
+	if err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	userIDInToken, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.SendError(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	if userID != userIDInToken {
+		err = errors.New("it is not possible to remove exercises to another user's workout")
+		responses.SendError(w, http.StatusForbidden, err)
+		return
+	}
+
+	bodyRequest, err := io.ReadAll(r.Body)
+	if err != nil {
+		responses.SendError(w, http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	var workout models.Workout
+	if err = json.Unmarshal(bodyRequest, &workout); err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repoExercise := repository.NewExercisesRepository(db)
+	for _, exercise := range workout.Exercises {
+		exerciseInDatabase, err := repoExercise.GetExerciseByID(exercise.ID, userID)
+		if err != nil {
+			responses.SendError(w, http.StatusInternalServerError, err)
+			return
+		}
+
+		if exerciseInDatabase.UserID != userID {
+			err = errors.New("it is not possible to remove an exercise to the workout that does not belong to you")
+			responses.SendError(w, http.StatusInternalServerError, err)
+			return
+		}
+	}
+
+	repo := repository.NewWorkoutsRepository(db)
+	for _, exercise := range workout.Exercises {
+		if err = repo.RemoveExerciseFromWorkout(workout.ID, exercise.ID); err != nil {
+			responses.SendError(w, http.StatusInternalServerError, err)
+			return
+		}
+	}
+
+	responses.SendJSON(w, http.StatusNoContent, nil)
+}

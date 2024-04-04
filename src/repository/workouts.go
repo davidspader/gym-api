@@ -172,3 +172,19 @@ func (repo Workouts) AddExerciseToWorkout(workoutID uint64, exerciseID uint64) e
 
 	return nil
 }
+
+func (repo Workouts) RemoveExerciseFromWorkout(workoutID uint64, exerciseID uint64) error {
+	statement, err := repo.db.Prepare(
+		"DELETE FROM exercises_workout WHERE workout_id = $1 AND exercise_id = $2",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err = statement.Exec(workoutID, exerciseID); err != nil {
+		return err
+	}
+
+	return nil
+}

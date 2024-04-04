@@ -42,4 +42,10 @@ var workoutsRotues = []route{
 		Function:       controllers.AddExercises,
 		Authentication: true,
 	},
+	{
+		URI:            "/workouts/user/{userId}/removeExercise",
+		Method:         http.MethodDelete,
+		Function:       controllers.RemoveExercises,
+		Authentication: true,
+	},
 }
