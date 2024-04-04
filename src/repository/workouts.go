@@ -139,18 +139,41 @@ func (repo Workouts) GetWorkoutByID(ID uint64, userID uint64) (models.Workout, e
 	var workout models.Workout
 
 	for row.Next() {
+		var exerciseID sql.NullInt64
+		var exerciseName sql.NullString
+		var exerciseWeight sql.NullInt64
+		var exerciseReps sql.NullInt64
+
 		var exercise models.Exercise
+
 		if err := row.Scan(
 			&workout.ID,
 			&workout.UserID,
 			&workout.Name,
-			&exercise.ID,
-			&exercise.Name,
-			&exercise.Weight,
-			&exercise.Reps,
+			&exerciseID,
+			&exerciseName,
+			&exerciseWeight,
+			&exerciseReps,
 		); err != nil {
 			return models.Workout{}, err
 		}
+
+		if exerciseID.Valid {
+			exercise.ID = uint64(exerciseID.Int64)
+		}
+
+		if exerciseName.Valid {
+			exercise.Name = exerciseName.String
+		}
+
+		if exerciseWeight.Valid {
+			exercise.Weight = uint16(exerciseWeight.Int64)
+		}
+
+		if exerciseReps.Valid {
+			exercise.Reps = uint16(exerciseReps.Int64)
+		}
+
 		workout.Exercises = append(workout.Exercises, exercise)
 	}
 
