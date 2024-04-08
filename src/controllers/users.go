@@ -43,7 +43,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewUsersRepository(db)
-	user.ID, err = repo.Create(user)
+	user.ID, err = repo.Save(user)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -179,7 +179,7 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewUsersRepository(db)
-	passwordInDatabase, err := repo.GetPassword(userID)
+	passwordInDatabase, err := repo.FindPassword(userID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return

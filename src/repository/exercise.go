@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"gym-api/src/interfaces"
 	"gym-api/src/models"
 )
 
@@ -9,11 +10,11 @@ type Exercises struct {
 	db *sql.DB
 }
 
-func NewExercisesRepository(db *sql.DB) *Exercises {
+func NewExercisesRepository(db *sql.DB) interfaces.ExerciseRepository {
 	return &Exercises{db}
 }
 
-func (repo Exercises) Create(exercise models.Exercise) (uint64, error) {
+func (repo Exercises) Save(exercise models.Exercise) (uint64, error) {
 	statement, err := repo.db.Prepare(
 		"INSERT INTO exercises (user_id, name, weight, reps) values ($1, $2, $3, $4) RETURNING id",
 	)
@@ -31,7 +32,7 @@ func (repo Exercises) Create(exercise models.Exercise) (uint64, error) {
 	return exerciseID, nil
 }
 
-func (repo Exercises) GetExerciseByID(exerciseID uint64, userID uint64) (models.Exercise, error) {
+func (repo Exercises) FindByID(exerciseID uint64, userID uint64) (models.Exercise, error) {
 	row, err := repo.db.Query(
 		"select * from exercises where id = $1 and user_id = $2",
 		exerciseID, userID,
@@ -58,7 +59,7 @@ func (repo Exercises) GetExerciseByID(exerciseID uint64, userID uint64) (models.
 	return exercise, nil
 }
 
-func (repo Exercises) GetExercisesByUserID(userID uint64) ([]models.Exercise, error) {
+func (repo Exercises) FindByUserID(userID uint64) ([]models.Exercise, error) {
 	rows, err := repo.db.Query(
 		"SELECT * FROM exercises WHERE user_id = $1",
 		userID,
