@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"gym-api/src/interfaces"
 	"gym-api/src/models"
 )
 
@@ -9,11 +10,11 @@ type Users struct {
 	db *sql.DB
 }
 
-func NewUsersRepository(db *sql.DB) *Users {
+func NewUsersRepository(db *sql.DB) interfaces.UserRepository {
 	return &Users{db}
 }
 
-func (repo Users) Create(user models.User) (uint64, error) {
+func (repo Users) Save(user models.User) (uint64, error) {
 	statement, err := repo.db.Prepare(
 		"INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id",
 	)
@@ -61,7 +62,7 @@ func (repo Users) Delete(ID uint64) error {
 	return nil
 }
 
-func (repo Users) GetByEmail(email string) (models.User, error) {
+func (repo Users) FindByEmail(email string) (models.User, error) {
 	row, err := repo.db.Query("select id, password from users where email = $1", email)
 	if err != nil {
 		return models.User{}, err
@@ -79,7 +80,7 @@ func (repo Users) GetByEmail(email string) (models.User, error) {
 	return user, nil
 }
 
-func (repo Users) GetPassword(userID uint64) (string, error) {
+func (repo Users) FindPassword(userID uint64) (string, error) {
 	row, err := repo.db.Query("select password from users where id = $1", userID)
 	if err != nil {
 		return "", err
