@@ -49,7 +49,7 @@ func CreateExercise(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewExercisesRepository(db)
-	exercise.ID, err = repo.Create(exercise)
+	exercise.ID, err = repo.Save(exercise)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -80,7 +80,7 @@ func GetExercise(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewExercisesRepository(db)
-	exercise, err := repo.GetExerciseByID(exerciseID, userID)
+	exercise, err := repo.FindByID(exerciseID, userID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -117,7 +117,7 @@ func GetExercisesByUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewExercisesRepository(db)
-	exercises, err := repo.GetExercisesByUserID(userID)
+	exercises, err := repo.FindByUserID(userID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -148,7 +148,7 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewExercisesRepository(db)
-	exerciseInDatabase, err := repo.GetExerciseByID(exerciseID, userID)
+	exerciseInDatabase, err := repo.FindByID(exerciseID, userID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -207,7 +207,7 @@ func DeleteExercise(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewExercisesRepository(db)
-	exerciseInDatabase, err := repo.GetExerciseByID(exerciseID, userID)
+	exerciseInDatabase, err := repo.FindByID(exerciseID, userID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return

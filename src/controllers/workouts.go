@@ -269,7 +269,7 @@ func AddExercises(w http.ResponseWriter, r *http.Request) {
 
 	repoExercise := repository.NewExercisesRepository(db)
 	for _, exercise := range workout.Exercises {
-		exerciseInDatabase, err := repoExercise.GetExerciseByID(exercise.ID, userID)
+		exerciseInDatabase, err := repoExercise.FindByID(exercise.ID, userID)
 		if err != nil {
 			responses.SendError(w, http.StatusInternalServerError, err)
 			return
@@ -334,7 +334,7 @@ func RemoveExercises(w http.ResponseWriter, r *http.Request) {
 
 	repoExercise := repository.NewExercisesRepository(db)
 	for _, exercise := range workout.Exercises {
-		exerciseInDatabase, err := repoExercise.GetExerciseByID(exercise.ID, userID)
+		exerciseInDatabase, err := repoExercise.FindByID(exercise.ID, userID)
 		if err != nil {
 			responses.SendError(w, http.StatusInternalServerError, err)
 			return
