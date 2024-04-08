@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"gym-api/src/interfaces"
 	"gym-api/src/models"
 )
 
@@ -9,11 +10,11 @@ type Workouts struct {
 	db *sql.DB
 }
 
-func NewWorkoutsRepository(db *sql.DB) *Workouts {
+func NewWorkoutsRepository(db *sql.DB) interfaces.WorkoutRepository {
 	return &Workouts{db}
 }
 
-func (repo Workouts) Create(workout models.Workout) (uint64, error) {
+func (repo Workouts) Save(workout models.Workout) (uint64, error) {
 	statement, err := repo.db.Prepare(
 		"INSERT INTO workouts (user_id, name) VALUES ($1, $2) RETURNING id",
 	)
@@ -31,7 +32,7 @@ func (repo Workouts) Create(workout models.Workout) (uint64, error) {
 	return workoutID, nil
 }
 
-func (repo Workouts) GetWorkoutsNamesByUserID(userID uint64) ([]models.Workout, error) {
+func (repo Workouts) FindNamesByUserID(userID uint64) ([]models.Workout, error) {
 	rows, err := repo.db.Query(
 		"SELECT * FROM workouts WHERE user_id = $1",
 		userID,
@@ -60,7 +61,7 @@ func (repo Workouts) GetWorkoutsNamesByUserID(userID uint64) ([]models.Workout, 
 	return workouts, nil
 }
 
-func (repo Workouts) GetWorkoutNameByID(ID uint64) (models.Workout, error) {
+func (repo Workouts) FindNameByID(ID uint64) (models.Workout, error) {
 	row, err := repo.db.Query(
 		"SELECT * FROM workouts WHERE id = $1",
 		ID,
@@ -117,7 +118,7 @@ func (repo Workouts) Delete(workoutID uint64, userID uint64) error {
 	return nil
 }
 
-func (repo Workouts) GetWorkoutByID(ID uint64, userID uint64) (models.Workout, error) {
+func (repo Workouts) FindByID(ID uint64, userID uint64) (models.Workout, error) {
 	row, err := repo.db.Query(
 		`
         SELECT w.id AS workout_id, w.user_id, w.name AS workout_name,
@@ -180,7 +181,7 @@ func (repo Workouts) GetWorkoutByID(ID uint64, userID uint64) (models.Workout, e
 	return workout, nil
 }
 
-func (repo Workouts) AddExerciseToWorkout(workoutID uint64, exerciseID uint64) error {
+func (repo Workouts) AddExercise(workoutID uint64, exerciseID uint64) error {
 	statement, err := repo.db.Prepare(
 		"INSERT INTO exercises_workout (workout_id, exercise_id) VALUES ($1, $2)",
 	)
@@ -196,7 +197,7 @@ func (repo Workouts) AddExerciseToWorkout(workoutID uint64, exerciseID uint64) e
 	return nil
 }
 
-func (repo Workouts) RemoveExerciseFromWorkout(workoutID uint64, exerciseID uint64) error {
+func (repo Workouts) RemoveExercise(workoutID uint64, exerciseID uint64) error {
 	statement, err := repo.db.Prepare(
 		"DELETE FROM exercises_workout WHERE workout_id = $1 AND exercise_id = $2",
 	)

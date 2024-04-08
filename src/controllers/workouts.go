@@ -49,7 +49,7 @@ func CreateWorkout(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewWorkoutsRepository(db)
-	workout.ID, err = repo.Create(workout)
+	workout.ID, err = repo.Save(workout)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -86,7 +86,7 @@ func GetWorkoutsByUser(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewWorkoutsRepository(db)
-	workouts, err := repo.GetWorkoutsNamesByUserID(userID)
+	workouts, err := repo.FindNamesByUserID(userID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -117,7 +117,7 @@ func UpdateWorkout(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewWorkoutsRepository(db)
-	workoutInDatabase, err := repo.GetWorkoutNameByID(workoutID)
+	workoutInDatabase, err := repo.FindNameByID(workoutID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -176,7 +176,7 @@ func DeleteWorkout(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewWorkoutsRepository(db)
-	workoutInDatabase, err := repo.GetWorkoutNameByID(workoutID)
+	workoutInDatabase, err := repo.FindNameByID(workoutID)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
@@ -218,7 +218,7 @@ func GetWorkout(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repo := repository.NewWorkoutsRepository(db)
-	workout, err := repo.GetWorkoutByID(workoutID, userID)
+	workout, err := repo.FindByID(workoutID, userID)
 
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
@@ -284,7 +284,7 @@ func AddExercises(w http.ResponseWriter, r *http.Request) {
 
 	repo := repository.NewWorkoutsRepository(db)
 	for _, exercise := range workout.Exercises {
-		if err = repo.AddExerciseToWorkout(workout.ID, exercise.ID); err != nil {
+		if err = repo.AddExercise(workout.ID, exercise.ID); err != nil {
 			responses.SendError(w, http.StatusInternalServerError, err)
 			return
 		}
@@ -349,7 +349,7 @@ func RemoveExercises(w http.ResponseWriter, r *http.Request) {
 
 	repo := repository.NewWorkoutsRepository(db)
 	for _, exercise := range workout.Exercises {
-		if err = repo.RemoveExerciseFromWorkout(workout.ID, exercise.ID); err != nil {
+		if err = repo.RemoveExercise(workout.ID, exercise.ID); err != nil {
 			responses.SendError(w, http.StatusInternalServerError, err)
 			return
 		}
