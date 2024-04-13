@@ -5,11 +5,15 @@ import (
 	"net/http"
 )
 
+type UserControllers struct {
+	UserControllers *controllers.UserController
+}
+
 var usersRoutes = []route{
 	{
 		URI:            "/users",
 		Method:         http.MethodPost,
-		Function:       controllers.CreateUser,
+		Function:       controllers.UserController.CreateUser,
 		Authentication: false,
 	},
 	{

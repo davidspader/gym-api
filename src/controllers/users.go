@@ -10,6 +10,7 @@ import (
 	"gym-api/src/repository"
 	"gym-api/src/responses"
 	"gym-api/src/security"
+	"gym-api/src/usecases"
 	"io"
 	"net/http"
 	"strconv"
@@ -17,7 +18,15 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+type UserController struct {
+	usecase *usecases.UserUseCase
+}
+
+func NewUsersController(usecase *usecases.UserUseCase) *UserController {
+	return &UserController{usecase: usecase}
+}
+
+func (uc *UserController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	bodyRequest, err := io.ReadAll(r.Body)
 	if err != nil {
 		responses.SendError(w, http.StatusUnprocessableEntity, err)
@@ -35,15 +44,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.SendError(w, http.StatusInternalServerError, err)
-		return
-	}
-	defer db.Close()
-
-	repo := repository.NewUsersRepository(db)
-	user.ID, err = repo.Save(user)
+	user.ID, err = uc.usecase.Save(user)
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
