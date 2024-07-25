@@ -1,0 +1,277 @@
+Grupo Muscular,Exercício
+Peito,Supino Reto
+Peito,Supino Inclinado
+Peito,Supino Declinado
+Peito,Supino com Halteres
+Peito,Supino Inclinado com Halteres
+Peito,Supino Declinado com Halteres
+Peito,Crucifixo Reto com Halteres
+Peito,Crucifixo Inclinado com Halteres
+Peito,Crucifixo Declinado com Halteres
+Peito,Fly Peck-Deck
+Peito,Flexão de Braço
+Peito,Flexão de Braço com Pés Elevados
+Peito,Flexão de Braço com Abertura
+Peito,Paralelas
+Peito,Crossover
+Peito,Pullover
+Peito,Supino com Pegada Fechada
+Peito,Supino com Pegada Inversa
+Peito,Crucifixo no Cabo
+Peito,Crucifixo Inclinado no Cabo
+Peito,Crucifixo Declinado no Cabo
+Peito,Fly com Cabo Cruzado
+Peito,Supino em Máquina
+Peito,Supino Inclinado em Máquina
+Peito,Supino Declinado em Máquina
+Peito,Crucifixo em Máquina
+Peito,Fly com Halteres no Banco
+Peito,Flexão com Clap
+Peito,Flexão com Uma Mão
+Peito,Flexão com Bola Medicinal
+Costas,Puxada Frontal
+Costas,Puxada Atrás da Nuca
+Costas,Remada Curvada
+Costas,Remada Curvada com Halteres
+Costas,Remada Cavalinho
+Costas,Remada Unilateral com Halter
+Costas,Remada Alta
+Costas,Remada Baixa com Cabo
+Costas,Remada Baixa com Pegada Aberta
+Costas,Remada Baixa com Pegada Fechada
+Costas,Pullover com Cabo
+Costas,Pullover com Halter
+Costas,Pull-up
+Costas,Chin-up
+Costas,Levantamento Terra
+Costas,Levantamento Terra com Pernas Rígidas
+Costas,Levantamento Terra Sumo
+Costas,Remada em Máquina
+Costas,Puxada V
+Costas,Puxada com Pegada Supinada
+Costas,Puxada com Pegada Neutra
+Costas,Remada Sentada
+Costas,Remada Invertida
+Costas,Pulldown no Cabo
+Costas,Remada Alta com Pegada Neutra
+Costas,Remada Alta no Smith
+Costas,Pulldown com Pegada Invertida
+Costas,Pulldown com Pegada Neutra
+Costas,Remada Cavalinho com Halter
+Costas,Remada Cavalinho com Cabo
+Ombros,Desenvolvimento com Barra
+Ombros,Desenvolvimento com Halteres
+Ombros,Desenvolvimento Arnold
+Ombros,Desenvolvimento Militar
+Ombros,Desenvolvimento no Smith
+Ombros,Elevação Lateral com Halteres
+Ombros,Elevação Frontal com Halteres
+Ombros,Elevação Lateral com Corda
+Ombros,Elevação Lateral no Cabo
+Ombros,Elevação Frontal com Barra
+Ombros,Elevação Lateral no Banco Inclinado
+Ombros,Elevação Frontal no Banco Inclinado
+Ombros,Face Pull
+Ombros,Remada Alta com Barra
+Ombros,Remada Alta com Halteres
+Ombros,Remada Alta no Cabo
+Ombros,Encolhimento de Ombros
+Ombros,Encolhimento de Ombros com Barra
+Ombros,Encolhimento de Ombros com Halteres
+Ombros,Encolhimento de Ombros na Máquina
+Ombros,Elevação Lateral com Halteres no Banco Inclinado
+Ombros,Elevação Frontal com Halteres no Banco Inclinado
+Ombros,Desenvolvimento com Pegada Neutra
+Ombros,Desenvolvimento com Pegada Supinada
+Ombros,Desenvolvimento com Pegada Pronada
+Ombros,Desenvolvimento com Pegada Alternada
+Ombros,Elevação Lateral com Pegada Neutra
+Ombros,Elevação Frontal com Pegada Neutra
+Ombros,Elevação Lateral com Pegada Supinada
+Ombros,Elevação Frontal com Pegada Supinada
+Ombros,Elevação Lateral com Pegada Pronada
+Ombros,Elevação Frontal com Pegada Pronada
+Ombros,Remada Alta com Pegada Neutra
+Ombros,Remada Alta com Pegada Supinada
+Ombros,Remada Alta com Pegada Pronada
+Ombros,Encolhimento de Ombros com Pegada Neutra
+Ombros,Encolhimento de Ombros com Pegada Supinada
+Ombros,Encolhimento de Ombros com Pegada Pronada
+Bíceps,Rosca Direta com Barra
+Bíceps,Rosca Direta com Halteres
+Bíceps,Rosca Alternada
+Bíceps,Rosca Alternada com Halteres
+Bíceps,Rosca Scott
+Bíceps,Rosca Martelo
+Bíceps,Rosca Martelo Alternada
+Bíceps,Rosca Concentrada
+Bíceps,Rosca Concentrada com Halteres
+Bíceps,Rosca no Banco Scott
+Bíceps,Rosca no Cabo
+Bíceps,Rosca com Pegada Neutra
+Bíceps,Rosca com Pegada Supinada
+Bíceps,Rosca com Pegada Pronada
+Bíceps,Rosca com Pegada Alternada
+Bíceps,Rosca na Máquina
+Bíceps,Rosca no Smith
+Bíceps,Rosca Unilateral
+Bíceps,Rosca Unilateral com Halteres
+Bíceps,Rosca com Pegada Invertida
+Bíceps,Rosca com Pegada Alternada no Banco
+Bíceps,Rosca com Pegada Invertida no Banco
+Bíceps,Rosca com Pegada Supinada no Banco
+Bíceps,Rosca com Pegada Pronada no Banco
+Bíceps,Rosca na Máquina com Pegada Neutra
+Bíceps,Rosca na Máquina com Pegada Supinada
+Bíceps,Rosca na Máquina com Pegada Pronada
+Bíceps,Rosca na Máquina com Pegada Alternada
+Bíceps,Rosca na Máquina com Pegada Invertida
+Tríceps,Tríceps Testa
+Tríceps,Tríceps Corda
+Tríceps,Tríceps Pulley
+Tríceps,Tríceps Pulley com Barra Reta
+Tríceps,Tríceps Pulley com Barra W
+Tríceps,Tríceps Francês
+Tríceps,Tríceps Coice
+Tríceps,Tríceps Banco
+Tríceps,Tríceps Mergulho
+Tríceps,Tríceps Invertido
+Tríceps,Tríceps com Pegada Invertida
+Tríceps,Tríceps com Pegada Supinada
+Tríceps,Tríceps no Smith
+Tríceps,Tríceps no Pulley Unilateral
+Tríceps,Tríceps no Pulley com Corda
+Tríceps,Tríceps no Pulley com Pegada Inversa
+Tríceps,Tríceps no Pulley com Pegada Supinada
+Tríceps,Tríceps no Pulley com Barra W
+Tríceps,Tríceps no Pulley com Barra Reta
+Tríceps,Tríceps na Cadeira
+Tríceps,Tríceps na Cadeira com Halteres
+Tríceps,Tríceps na Cadeira com Barra Reta
+Tríceps,Tríceps na Cadeira com Barra W
+Tríceps,Tríceps no Banco
+Tríceps,Tríceps no Banco com Halteres
+Tríceps,Tríceps no Banco com Barra Reta
+Tríceps,Tríceps no Banco com Barra W
+Tríceps,Tríceps na Corda com Halteres
+Tríceps,Tríceps na Máquina
+Tríceps,Tríceps no Banco com Pegada Aberta
+Pernas,Agachamento Livre
+Pernas,Agachamento Frontal
+Pernas,Agachamento Hack
+Pernas,Agachamento Sumo
+Pernas,Agachamento no Smith
+Pernas,Agachamento Búlgaro
+Pernas,Leg Press
+Pernas,Leg Press Horizontal
+Pernas,Leg Press Inclinado
+Pernas,Extensão de Pernas
+Pernas,Flexão de Pernas
+Pernas,Stiff
+Pernas,Levantamento Terra
+Pernas,Avanço
+Pernas,Avanço com Halteres
+Pernas,Avanço no Smith
+Pernas,Cadeira Adutora
+Pernas,Cadeira Abdutora
+Pernas,Cadeira Extensora
+Pernas,Cadeira Flexora
+Pernas,Panturrilha em Pé
+Pernas,Panturrilha Sentada
+Pernas,Panturrilha no Leg Press
+Pernas,Agachamento com Salto
+Pernas,Passada
+Pernas,Passada no Smith
+Pernas,Passada com Halteres
+Pernas,Agachamento com Barra
+Pernas,Panturrilha no Smith
+Pernas,Panturrilha em Máquina
+Panturrilha,Panturrilha em Pé
+Panturrilha,Panturrilha Sentada
+Panturrilha,Panturrilha no Leg Press
+Panturrilha,Panturrilha no Smith
+Panturrilha,Panturrilha em Máquina
+Panturrilha,Panturrilha com Halteres
+Panturrilha,Panturrilha com Barra
+Panturrilha,Panturrilha com Pegada Neutra
+Panturrilha,Panturrilha com Pegada Supinada
+Panturrilha,Panturrilha com Pegada Pronada
+Panturrilha,Panturrilha com Pegada Alternada
+Panturrilha,Panturrilha com Peso Corporal
+Panturrilha,Panturrilha com Pegada Invertida
+Panturrilha,Panturrilha com Pegada Invertida na Máquina
+Panturrilha,Panturrilha com Pegada Supinada na Máquina
+Panturrilha,Panturrilha com Pegada Pronada na Máquina
+Panturrilha,Panturrilha com Pegada Alternada na Máquina
+Panturrilha,Panturrilha com Halteres no Leg Press
+Panturrilha,Panturrilha com Barra no Leg Press
+Panturrilha,Panturrilha com Pegada Neutra no Leg Press
+Panturrilha,Panturrilha com Pegada Supinada no Leg Press
+Panturrilha,Panturrilha com Pegada Pronada no Leg Press
+Panturrilha,Panturrilha com Pegada Alternada no Leg Press
+Panturrilha,Panturrilha com Peso Corporal no Leg Press
+Panturrilha,Panturrilha com Pegada Invertida no Leg Press
+Panturrilha,Panturrilha com Pegada Neutra na Máquina
+Panturrilha,Panturrilha com Pegada Supinada na Máquina
+Panturrilha,Panturrilha com Pegada Pronada na Máquina
+Panturrilha,Panturrilha com Pegada Alternada na Máquina
+Panturrilha,Panturrilha com Pegada Invertida na Máquina
+Abdômen,Abdominal Crunch
+Abdômen,Abdominal Invertido
+Abdômen,Abdominal na Prancha Declinado
+Abdômen,Abdominal na Roda
+Abdômen,Abdominal na Cadeira Romana
+Abdômen,Abdominal na Bola
+Abdômen,Abdominal com Corda
+Abdômen,Abdominal no Cabo
+Abdômen,Abdominal Infra
+Abdômen,Abdominal Supra
+Abdômen,Abdominal Oblíquo
+Abdômen,Abdominal Lateral
+Abdômen,Abdominal no Banco Inclinado
+Abdômen,Abdominal com Peso
+Abdômen,Abdominal na Paralela
+Abdômen,Prancha Frontal
+Abdômen,Prancha Lateral
+Abdômen,Elevação de Pernas
+Abdômen,Elevação de Pernas na Paralela
+Abdômen,Elevação de Pernas na Barra
+Abdômen,Elevação de Pernas no Banco
+Abdômen,Torção Russa
+Abdômen,Torção no Cabo
+Abdômen,Bicicleta no Chão
+Abdômen,Bicicleta no Banco
+Abdômen,Abdominal V-Up
+Abdômen,Abdominal Jackknife
+Abdômen,Abdominal no Bosu
+Abdômen,Abdominal Suspenso
+Antebraços,Rosca Inversa com Barra
+Antebraços,Rosca Punho com Barra
+Antebraços,Rosca Punho Invertida com Barra
+Antebraços,Rosca Martelo com Halteres
+Antebraços,Rosca Martelo no Cabo
+Antebraços,Rosca Punho com Halteres
+Antebraços,Rosca Punho no Banco com Barra
+Antebraços,Rosca Punho no Banco com Halteres
+Antebraços,Rosca Punho no Cabo
+Antebraços,Rosca Punho na Máquina
+Antebraços,Rosca Punho com Pegada Invertida no Cabo
+Antebraços,Rosca Punho com Pegada Supinada no Cabo
+Antebraços,Rosca Punho com Pegada Pronada no Cabo
+Antebraços,Rosca Punho Alternada no Banco
+Antebraços,Rosca Punho Unilateral no Cabo
+Antebraços,Rosca Punho no Smith
+Antebraços,Rosca Punho com Halteres no Banco Inclinado
+Antebraços,Rosca Punho com Halteres no Smith
+Antebraços,Rosca Punho com Halteres no Cabo
+Antebraços,Rosca Punho com Barra no Banco Inclinado
+Antebraços,Rosca Punho com Barra no Smith
+Antebraços,Rosca Punho com Barra no Cabo
+Antebraços,Rosca Punho com Pegada Alternada no Cabo
+Antebraços,Rosca Punho com Pegada Invertida no Banco
+Antebraços,Rosca Punho com Pegada Supinada no Banco
+Antebraços,Rosca Punho com Pegada Pronada no Banco
+Antebraços,Extensão de Punho com Barra
+Antebraços,Extensão de Punho com Halteres
+Antebraços,Flexão de Punho com Barra
+Antebraços,Flexão de Punho com Halteres
