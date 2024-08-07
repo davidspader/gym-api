@@ -125,7 +125,7 @@ func UpdateWorkout(w http.ResponseWriter, r *http.Request) {
 
 	if workoutInDatabase.UserID != userID {
 		err = errors.New("it is not possible to update an workout that is not yours")
-		responses.SendError(w, http.StatusInternalServerError, err)
+		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
 
@@ -184,7 +184,7 @@ func DeleteWorkout(w http.ResponseWriter, r *http.Request) {
 
 	if workoutInDatabase.UserID != userID {
 		err = errors.New("it is not possible to delete an workout that is not yours")
-		responses.SendError(w, http.StatusInternalServerError, err)
+		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
 
