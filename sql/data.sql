@@ -1,6 +1,6 @@
 INSERT INTO users (name, email, password) VALUES
-    ('User1', 'user1@gmail.com', '$2a$10$.sONq99DMk9GdO7QEpKgCOFDd7QPUYlxJuo7d/EcxDQxAEwpquzDS'),
-    ('User2', 'user2@gmail.com', '$2a$10$.sONq99DMk9GdO7QEpKgCOFDd7QPUYlxJuo7d/EcxDQxAEwpquzDS');
+    ('User1', 'user1@gmail.com', '$2a$10$jicBdJxqRg/MavPxZsJOleYraqJh0ef8DHU0WGDuboO2KL9Q6lfHG'),
+    ('User2', 'user2@gmail.com', '$2a$10$jicBdJxqRg/MavPxZsJOleYraqJh0ef8DHU0WGDuboO2KL9Q6lfHG');
 
 INSERT INTO workouts (user_id, name) VALUES
     (1, 'Workout1'),
