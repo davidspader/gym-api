@@ -86,6 +86,12 @@ func GetExercise(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if exercise.ID == 0 {
+		err = errors.New("the exercise you are looking for could not be found")
+		responses.SendError(w, http.StatusNotFound, err)
+		return
+	}
+
 	responses.SendJSON(w, http.StatusOK, exercise)
 }
 

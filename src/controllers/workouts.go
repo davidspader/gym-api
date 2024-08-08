@@ -219,9 +219,14 @@ func GetWorkout(w http.ResponseWriter, r *http.Request) {
 
 	repo := repository.NewWorkoutsRepository(db)
 	workout, err := repo.FindByID(workoutID, userID)
-
 	if err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if workout.ID == 0 {
+		err = errors.New("the workout you are looking for could not be found")
+		responses.SendError(w, http.StatusNotFound, err)
 		return
 	}
 
