@@ -290,7 +290,7 @@ func AddExercises(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	responses.SendJSON(w, http.StatusCreated, nil)
+	responses.SendJSON(w, http.StatusNoContent, nil)
 }
 
 func RemoveExercises(w http.ResponseWriter, r *http.Request) {
