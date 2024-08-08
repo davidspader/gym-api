@@ -178,6 +178,18 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if exercise.Name == "" {
+		exercise.Name = exerciseInDatabase.Name
+	}
+
+	if exercise.Weight == 0 {
+		exercise.Weight = exerciseInDatabase.Weight
+	}
+
+	if exercise.Reps == 0 {
+		exercise.Reps = exerciseInDatabase.Reps
+	}
+
 	if err = exercise.Prepare(); err != nil {
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
