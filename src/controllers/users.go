@@ -73,6 +73,26 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	db, err := database.Connect()
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+	defer db.Close()
+
+	repo := repository.NewUsersRepository(db)
+	userInDatabase, err := repo.FindByID(userID)
+	if err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	if userInDatabase.ID != userID {
+		err = errors.New("it is not possible to update another user")
+		responses.SendError(w, http.StatusForbidden, err)
+		return
+	}
+
 	bodyRequest, err := io.ReadAll(r.Body)
 	if err != nil {
 		responses.SendError(w, http.StatusUnprocessableEntity, err)
@@ -85,14 +105,18 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := database.Connect()
-	if err != nil {
-		responses.SendError(w, http.StatusInternalServerError, err)
+	if user.Name == "" {
+		user.Name = userInDatabase.Name
+	}
+	if user.Email == "" {
+		user.Email = userInDatabase.Email
+	}
+
+	if err = user.Prepare("update"); err != nil {
+		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
-	defer db.Close()
 
-	repo := repository.NewUsersRepository(db)
 	if err = repo.Update(userID, user); err != nil {
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return

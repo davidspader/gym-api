@@ -7,6 +7,7 @@ type UserRepository interface {
 	Update(ID uint64, user models.User) error
 	Delete(ID uint64) error
 	FindByEmail(email string) (models.User, error)
+	FindByID(ID uint64) (models.User, error)
 	FindPassword(userID uint64) (string, error)
 	UpdatePassword(userID uint64, password string) error
 }
