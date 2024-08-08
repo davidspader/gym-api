@@ -80,6 +80,24 @@ func (repo Users) FindByEmail(email string) (models.User, error) {
 	return user, nil
 }
 
+func (repo Users) FindByID(ID uint64) (models.User, error) {
+	row, err := repo.db.Query("select id, name, email from users where id = $1", ID)
+	if err != nil {
+		return models.User{}, err
+	}
+	defer row.Close()
+
+	var user models.User
+
+	if row.Next() {
+		if err = row.Scan(&user.ID, &user.Name, &user.Email); err != nil {
+			return models.User{}, err
+		}
+	}
+
+	return user, nil
+}
+
 func (repo Users) FindPassword(userID uint64) (string, error) {
 	row, err := repo.db.Query("select password from users where id = $1", userID)
 	if err != nil {
