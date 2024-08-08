@@ -156,7 +156,7 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 
 	if exerciseInDatabase.UserID != userID {
 		err = errors.New("it is not possible to update an exercise that is not yours")
-		responses.SendError(w, http.StatusInternalServerError, err)
+		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
 
@@ -215,7 +215,7 @@ func DeleteExercise(w http.ResponseWriter, r *http.Request) {
 
 	if exerciseInDatabase.UserID != userID {
 		err = errors.New("it is not possible to delete an exercise that is not yours")
-		responses.SendError(w, http.StatusInternalServerError, err)
+		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
 

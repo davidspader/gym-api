@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"gym-api/src/auth"
 	"gym-api/src/database"
 	"gym-api/src/models"
@@ -58,7 +57,6 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userId"], 10, 64)
 	if err != nil {
-		fmt.Println("erro aqui")
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}

@@ -19,7 +19,7 @@ var exercisesRoutes = []route{
 		Authentication: true,
 	},
 	{
-		URI:            "users/{userId}/exercises",
+		URI:            "/users/{userId}/exercises",
 		Method:         http.MethodGet,
 		Function:       controllers.GetExercisesByUser,
 		Authentication: true,

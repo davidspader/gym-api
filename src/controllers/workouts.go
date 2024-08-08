@@ -125,7 +125,7 @@ func UpdateWorkout(w http.ResponseWriter, r *http.Request) {
 
 	if workoutInDatabase.UserID != userID {
 		err = errors.New("it is not possible to update an workout that is not yours")
-		responses.SendError(w, http.StatusInternalServerError, err)
+		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
 
@@ -184,7 +184,7 @@ func DeleteWorkout(w http.ResponseWriter, r *http.Request) {
 
 	if workoutInDatabase.UserID != userID {
 		err = errors.New("it is not possible to delete an workout that is not yours")
-		responses.SendError(w, http.StatusInternalServerError, err)
+		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
 
@@ -277,7 +277,7 @@ func AddExercises(w http.ResponseWriter, r *http.Request) {
 
 		if exerciseInDatabase.UserID != userID {
 			err = errors.New("it is not possible to add an exercise to the workout that does not belong to you")
-			responses.SendError(w, http.StatusInternalServerError, err)
+			responses.SendError(w, http.StatusForbidden, err)
 			return
 		}
 	}
@@ -290,7 +290,7 @@ func AddExercises(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	responses.SendJSON(w, http.StatusCreated, nil)
+	responses.SendJSON(w, http.StatusNoContent, nil)
 }
 
 func RemoveExercises(w http.ResponseWriter, r *http.Request) {
@@ -342,7 +342,7 @@ func RemoveExercises(w http.ResponseWriter, r *http.Request) {
 
 		if exerciseInDatabase.UserID != userID {
 			err = errors.New("it is not possible to remove an exercise to the workout that does not belong to you")
-			responses.SendError(w, http.StatusInternalServerError, err)
+			responses.SendError(w, http.StatusForbidden, err)
 			return
 		}
 	}
