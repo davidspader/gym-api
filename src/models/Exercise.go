@@ -13,6 +13,10 @@ type Exercise struct {
 	Reps   uint16 `json:"reps,omitempty"`
 }
 
+type ExerciseIDs struct {
+	IDs []uint64 `json:"ids"`
+}
+
 func (exercise *Exercise) Prepare() error {
 	if err := exercise.validate(); err != nil {
 		return err
