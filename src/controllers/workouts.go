@@ -267,26 +267,15 @@ func AddExercises(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repoExercise := repository.NewExercisesRepository(db)
-	for _, ID := range exerciseIDs.IDs {
-		exerciseInDatabase, err := repoExercise.FindByID(ID, userID)
-		if err != nil {
-			responses.SendError(w, http.StatusInternalServerError, err)
-			return
-		}
-
-		if exerciseInDatabase.UserID != userID {
-			err = errors.New("it is not possible to add an exercise to the workout that does not belong to you")
-			responses.SendError(w, http.StatusForbidden, err)
-			return
-		}
+	if err = repoExercise.VerifyOwnership(exerciseIDs.IDs, userID); err != nil {
+		responses.SendError(w, http.StatusForbidden, err)
+		return
 	}
 
 	repo := repository.NewWorkoutsRepository(db)
-	for _, ID := range exerciseIDs.IDs {
-		if err = repo.AddExercise(workoutID, ID); err != nil {
-			responses.SendError(w, http.StatusInternalServerError, err)
-			return
-		}
+	if err = repo.AddExercises(workoutID, exerciseIDs.IDs); err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
 	}
 
 	responses.SendJSON(w, http.StatusNoContent, nil)
@@ -326,26 +315,15 @@ func RemoveExercises(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	repoExercise := repository.NewExercisesRepository(db)
-	for _, ID := range exerciseIDs.IDs {
-		exerciseInDatabase, err := repoExercise.FindByID(ID, userID)
-		if err != nil {
-			responses.SendError(w, http.StatusInternalServerError, err)
-			return
-		}
-
-		if exerciseInDatabase.UserID != userID {
-			err = errors.New("it is not possible to remove an exercise to the workout that does not belong to you")
-			responses.SendError(w, http.StatusForbidden, err)
-			return
-		}
+	if err = repoExercise.VerifyOwnership(exerciseIDs.IDs, userID); err != nil {
+		responses.SendError(w, http.StatusForbidden, err)
+		return
 	}
 
 	repo := repository.NewWorkoutsRepository(db)
-	for _, ID := range exerciseIDs.IDs {
-		if err = repo.RemoveExercise(workoutID, ID); err != nil {
-			responses.SendError(w, http.StatusInternalServerError, err)
-			return
-		}
+	if err = repo.RemoveExercises(workoutID, exerciseIDs.IDs); err != nil {
+		responses.SendError(w, http.StatusInternalServerError, err)
+		return
 	}
 
 	responses.SendJSON(w, http.StatusNoContent, nil)

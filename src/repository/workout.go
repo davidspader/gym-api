@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"gym-api/src/interfaces"
 	"gym-api/src/models"
+
+	"github.com/lib/pq"
 )
 
 type Workouts struct {
@@ -181,34 +183,20 @@ func (repo Workouts) FindByID(ID uint64, userID uint64) (models.Workout, error) 
 	return workout, nil
 }
 
-func (repo Workouts) AddExercise(workoutID uint64, exerciseID uint64) error {
-	statement, err := repo.db.Prepare(
-		"INSERT INTO exercises_workout (workout_id, exercise_id) VALUES ($1, $2)",
-	)
-	if err != nil {
-		return err
-	}
-	defer statement.Close()
-
-	if _, err = statement.Exec(workoutID, exerciseID); err != nil {
-		return err
-	}
-
-	return nil
+func (repo Workouts) AddExercises(workoutID uint64, exerciseIDs []uint64) error {
+	query := `
+        INSERT INTO exercises_workout (workout_id, exercise_id)
+        SELECT $1, unnest($2::bigint[])
+    `
+	_, err := repo.db.Exec(query, workoutID, pq.Array(exerciseIDs))
+	return err
 }
 
-func (repo Workouts) RemoveExercise(workoutID uint64, exerciseID uint64) error {
-	statement, err := repo.db.Prepare(
-		"DELETE FROM exercises_workout WHERE workout_id = $1 AND exercise_id = $2",
-	)
-	if err != nil {
-		return err
-	}
-	defer statement.Close()
-
-	if _, err = statement.Exec(workoutID, exerciseID); err != nil {
-		return err
-	}
-
-	return nil
+func (repo Workouts) RemoveExercises(workoutID uint64, exerciseIDs []uint64) error {
+	query := `
+        DELETE FROM exercises_workout
+        WHERE workout_id = $1 AND exercise_id = ANY($2::bigint[])
+    `
+	_, err := repo.db.Exec(query, workoutID, pq.Array(exerciseIDs))
+	return err
 }

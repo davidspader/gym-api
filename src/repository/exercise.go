@@ -2,8 +2,11 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 	"gym-api/src/interfaces"
 	"gym-api/src/models"
+
+	"github.com/lib/pq"
 )
 
 type Exercises struct {
@@ -117,6 +120,25 @@ func (repo Exercises) Delete(exerciseID uint64, userID uint64) error {
 
 	if _, err = statement.Exec(exerciseID, userID); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func (repo Exercises) VerifyOwnership(exerciseIDs []uint64, userID uint64) error {
+	query := `
+		SELECT COUNT(*)
+		FROM exercises
+		WHERE id = ANY($1::bigint[]) AND user_id = $2
+	`
+	var count int
+	err := repo.db.QueryRow(query, pq.Array(exerciseIDs), userID).Scan(&count)
+	if err != nil {
+		return err
+	}
+
+	if count != len(exerciseIDs) {
+		return errors.New("one or more exercises do not belong to the user")
 	}
 
 	return nil
