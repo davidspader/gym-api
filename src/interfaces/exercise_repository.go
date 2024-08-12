@@ -8,4 +8,5 @@ type ExerciseRepository interface {
 	FindByUserID(userID uint64) ([]models.Exercise, error)
 	Update(exerciseID uint64, userID uint64, exercise models.Exercise) error
 	Delete(exerciseID uint64, userID uint64) error
+	VerifyOwnership(exerciseIDs []uint64, userID uint64) error
 }

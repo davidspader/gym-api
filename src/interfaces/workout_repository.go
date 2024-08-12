@@ -9,6 +9,6 @@ type WorkoutRepository interface {
 	FindByID(ID uint64, userID uint64) (models.Workout, error)
 	Update(workoutID uint64, userID uint64, workout models.Workout) error
 	Delete(workoutID uint64, userID uint64) error
-	AddExercise(workoutID uint64, exerciseID uint64) error
-	RemoveExercise(workoutID uint64, exerciseID uint64) error
+	AddExercises(workoutID uint64, exerciseIDs []uint64) error
+	RemoveExercises(workoutID uint64, exerciseIDs []uint64) error
 }
