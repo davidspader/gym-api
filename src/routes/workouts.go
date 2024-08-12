@@ -37,13 +37,13 @@ var workoutsRotues = []route{
 		Authentication: true,
 	},
 	{
-		URI:            "/workouts/{userId}/addExercise",
+		URI:            "/workouts/addExercise/{workoutId}",
 		Method:         http.MethodPost,
 		Function:       controllers.AddExercises,
 		Authentication: true,
 	},
 	{
-		URI:            "/workouts/{userId}/removeExercise",
+		URI:            "/workouts/removeExercise/{workoutId}",
 		Method:         http.MethodDelete,
 		Function:       controllers.RemoveExercises,
 		Authentication: true,
