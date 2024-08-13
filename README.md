@@ -44,3 +44,7 @@ Follow these steps to set up the project on your local machine:
    - If you want to generate test data for the API, run the SQL script located at `sql/data.sql`. Note that the default password for the test users is `123456`.
 
 Your system is now configured and ready to use!
+
+## API Documentation
+
+You can access the API documentation at [http://localhost:3000/swagger/index.html](http://localhost:3000/swagger/index.html)
