@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type route struct {
@@ -33,6 +34,11 @@ func configRoutes(r *mux.Router) *mux.Router {
 			).Methods(route.Method)
 		}
 	}
+
+	r.PathPrefix("/docs/").Handler(http.StripPrefix("/docs/", http.FileServer(http.Dir("./docs/"))))
+	r.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
+		httpSwagger.URL("/docs/swagger.json"),
+	))
 
 	return r
 }

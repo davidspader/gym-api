@@ -1,0 +1,13 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Gym API",
+      "version": "0.0.9"
+    },
+    "paths": {
+      "/users": {
+        "$ref": "./user/user-create-path.json"
+      }
+    }
+  }
+  
