@@ -18,18 +18,21 @@ import (
 func CreateExercise(w http.ResponseWriter, r *http.Request) {
 	userID, err := auth.ExtractUserID(r)
 	if err != nil {
+		err = errors.New(responses.ErrMsgUnauthorized)
 		responses.SendError(w, http.StatusUnauthorized, err)
 		return
 	}
 
 	bodyRequest, err := io.ReadAll(r.Body)
 	if err != nil {
+		err = errors.New(responses.ErrMsgUnprocessableEntity)
 		responses.SendError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 
 	var exercise models.Exercise
 	if err = json.Unmarshal(bodyRequest, &exercise); err != nil {
+		err = errors.New(responses.ErrMsgBadRequest)
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
@@ -37,12 +40,13 @@ func CreateExercise(w http.ResponseWriter, r *http.Request) {
 	exercise.UserID = userID
 
 	if err = exercise.Prepare(); err != nil {
-		responses.SendError(w, http.StatusInternalServerError, err)
+		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	db, err := database.Connect()
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -51,6 +55,7 @@ func CreateExercise(w http.ResponseWriter, r *http.Request) {
 	repo := repository.NewExercisesRepository(db)
 	exercise.ID, err = repo.Save(exercise)
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -61,6 +66,7 @@ func CreateExercise(w http.ResponseWriter, r *http.Request) {
 func GetExercise(w http.ResponseWriter, r *http.Request) {
 	userID, err := auth.ExtractUserID(r)
 	if err != nil {
+		err = errors.New(responses.ErrMsgUnauthorized)
 		responses.SendError(w, http.StatusUnauthorized, err)
 		return
 	}
@@ -68,12 +74,14 @@ func GetExercise(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	exerciseID, err := strconv.ParseUint(params["exerciseId"], 10, 64)
 	if err != nil {
+		err = errors.New(responses.ErrMsgBadRequest)
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	db, err := database.Connect()
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -82,6 +90,7 @@ func GetExercise(w http.ResponseWriter, r *http.Request) {
 	repo := repository.NewExercisesRepository(db)
 	exercise, err := repo.FindByID(exerciseID, userID)
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -99,12 +108,14 @@ func GetExercisesByUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userID, err := strconv.ParseUint(params["userId"], 10, 64)
 	if err != nil {
+		err = errors.New(responses.ErrMsgBadRequest)
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	userIDInToken, err := auth.ExtractUserID(r)
 	if err != nil {
+		err = errors.New(responses.ErrMsgUnauthorized)
 		responses.SendError(w, http.StatusUnauthorized, err)
 		return
 	}
@@ -117,6 +128,7 @@ func GetExercisesByUser(w http.ResponseWriter, r *http.Request) {
 
 	db, err := database.Connect()
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -125,6 +137,7 @@ func GetExercisesByUser(w http.ResponseWriter, r *http.Request) {
 	repo := repository.NewExercisesRepository(db)
 	exercises, err := repo.FindByUserID(userID)
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -135,6 +148,7 @@ func GetExercisesByUser(w http.ResponseWriter, r *http.Request) {
 func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 	userID, err := auth.ExtractUserID(r)
 	if err != nil {
+		err = errors.New(responses.ErrMsgUnauthorized)
 		responses.SendError(w, http.StatusUnauthorized, err)
 		return
 	}
@@ -142,12 +156,14 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	exerciseID, err := strconv.ParseUint(params["exerciseId"], 10, 64)
 	if err != nil {
+		err = errors.New(responses.ErrMsgBadRequest)
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	db, err := database.Connect()
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -156,6 +172,7 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 	repo := repository.NewExercisesRepository(db)
 	exerciseInDatabase, err := repo.FindByID(exerciseID, userID)
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -168,12 +185,14 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 
 	bodyRequest, err := io.ReadAll(r.Body)
 	if err != nil {
+		err = errors.New(responses.ErrMsgUnprocessableEntity)
 		responses.SendError(w, http.StatusUnprocessableEntity, err)
 		return
 	}
 
 	var exercise models.Exercise
 	if err = json.Unmarshal(bodyRequest, &exercise); err != nil {
+		err = errors.New(responses.ErrMsgBadRequest)
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
@@ -196,6 +215,7 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = repo.Update(exerciseID, userID, exercise); err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -206,6 +226,7 @@ func UpdateExercise(w http.ResponseWriter, r *http.Request) {
 func DeleteExercise(w http.ResponseWriter, r *http.Request) {
 	userID, err := auth.ExtractUserID(r)
 	if err != nil {
+		err = errors.New(responses.ErrMsgUnauthorized)
 		responses.SendError(w, http.StatusUnauthorized, err)
 		return
 	}
@@ -213,12 +234,14 @@ func DeleteExercise(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	exerciseID, err := strconv.ParseUint(params["exerciseId"], 10, 64)
 	if err != nil {
+		err = errors.New(responses.ErrMsgBadRequest)
 		responses.SendError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	db, err := database.Connect()
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -227,6 +250,7 @@ func DeleteExercise(w http.ResponseWriter, r *http.Request) {
 	repo := repository.NewExercisesRepository(db)
 	exerciseInDatabase, err := repo.FindByID(exerciseID, userID)
 	if err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
@@ -238,6 +262,7 @@ func DeleteExercise(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = repo.Delete(exerciseID, userID); err != nil {
+		err = errors.New(responses.ErrMsgInternalServerError)
 		responses.SendError(w, http.StatusInternalServerError, err)
 		return
 	}
