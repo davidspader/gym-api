@@ -1,0 +1,17 @@
+{
+  "description": "Authentication is required and has failed or has not yet been provided",
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "authentication is required and has failed or has not yet been provided"
+          }
+        },
+        "required": ["error"]
+      }
+    }
+  }
+}

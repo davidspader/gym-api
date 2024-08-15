@@ -1,0 +1,17 @@
+{
+  "description": "The request could not be processed due to invalid input",
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "the request could not be processed"
+          }
+        },
+        "required": ["error"]
+      }
+    }
+  }
+}
