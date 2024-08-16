@@ -193,7 +193,7 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if userID != userIDInToken {
-		err = errors.New("cannot change another user's password")
+		err = errors.New(responses.ErrMsgForbidden)
 		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}

@@ -24,7 +24,7 @@
       "description": "User deleted successfully. No content returned."
     },
     "400": {
-      "$ref": "../standard-errors/validation-error.json"
+      "$ref": "../standard-errors/bad-request.json"
     },
     "401": {
       "$ref": "../standard-errors/unauthorized.json"
