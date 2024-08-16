@@ -7,6 +7,9 @@
   "paths": {
     "/users": {
       "$ref": "./user/user-create-path.json"
+    },
+    "/auth/login": {
+      "$ref": "./user/login-path.json"
     }
   }
 }

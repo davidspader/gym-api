@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address of the user",
+            "example": "johndoe@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for the user account",
+            "example": "mypassword"
+          }
+        },
+        "required": ["email", "password"]
+      }
+    }
+  }
+}
