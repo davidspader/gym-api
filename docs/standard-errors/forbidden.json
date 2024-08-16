@@ -1,20 +1,17 @@
 {
-    "description": "You do not have permission to access this resource",
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "error": {
-              "type": "string",
-              "example": "you do not have permission to access this resource"
-            }
-          },
-          "required": [
-            "error"
-          ]
-        }
+  "description": "You do not have permission to access this resource",
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "you do not have permission to access this resource"
+          }
+        },
+        "required": ["error"]
       }
     }
   }
-  
+}
