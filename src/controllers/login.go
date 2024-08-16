@@ -13,10 +13,6 @@ import (
 	"net/http"
 )
 
-type AuthResponse struct {
-	Token []byte `json:"token"`
-}
-
 func Login(w http.ResponseWriter, r *http.Request) {
 	bodyRequest, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -61,9 +57,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := AuthResponse{
-		Token: []byte(token),
-	}
-
-	responses.SendJSON(w, http.StatusOK, response)
+	w.Write([]byte(token))
 }

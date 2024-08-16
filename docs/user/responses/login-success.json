@@ -3,14 +3,8 @@
   "content": {
     "application/json": {
       "schema": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MjM4MzU3MDUsInVzZXJJZCI6M30.rQHilsjjxJGxuyvf0XWpE7jDioa4M_FLlXDL87ImIBM"
-          }
-        },
-        "required": ["token"]
+        "type": "string",
+        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE3MjM4MzU3MDUsInVzZXJJZCI6M30.rQHilsjjxJGxuyvf0XWpE7jDioa4M_FLlXDL87ImIBM"
       }
     }
   }
