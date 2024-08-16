@@ -1,0 +1,47 @@
+{
+  "put": {
+    "operationId": "updateUser",
+    "summary": "Update an existing user account",
+    "description": "This endpoint allows you to update an existing user account. Requires a Bearer token for authentication.",
+    "tags": ["user"],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "The ID of the user to update"
+      }
+    ],
+    "requestBody": {
+      "$ref": "./components/user-update-body.json"
+    },
+    "responses": {
+      "204": {
+        "description": "User updated successfully. No content returned."
+      },
+      "400": {
+        "$ref": "../standard-errors/validation-error.json"
+      },
+      "401": {
+        "$ref": "../standard-errors/unauthorized.json"
+      },
+      "403": {
+        "$ref": "../standard-errors/forbidden.json"
+      },
+      "422": {
+        "$ref": "../standard-errors/unprocessable-entity.json"
+      },
+      "500": {
+        "$ref": "../standard-errors/internal-server-error.json"
+      }
+    }
+  }
+}

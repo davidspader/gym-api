@@ -74,7 +74,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if userID != userIDInToken {
-		err = errors.New("cannot update a user other than your own")
+		err = errors.New(responses.ErrMsgForbidden)
 		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
@@ -96,7 +96,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if userInDatabase.ID != userID {
-		err = errors.New("it is not possible to update another user")
+		err = errors.New(responses.ErrMsgForbidden)
 		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}
