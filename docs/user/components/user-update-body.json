@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "New name for the user",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "New email address for the user",
+            "example": "janedoe@example.com"
+          }
+        },
+        "required": []
+      }
+    }
+  }
+}

@@ -1,13 +1,26 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Gym API",
-      "version": "0.0.9"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Gym API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "$ref": "./user/user-create-path.json"
     },
-    "paths": {
-      "/users": {
-        "$ref": "./user/user-create-path.json"
+    "/users/{id}": {
+      "put": {
+        "$ref": "./user/user-update-path.json"
+      },
+      "delete": {
+        "$ref": "./user/user-delete-path.json"
       }
+    },
+    "users/{id}/change-password": {
+      "$ref": "./user/user-change-password-path.json"
+    },
+    "/auth/login": {
+      "$ref": "./user/login-path.json"
     }
   }
-  
+}

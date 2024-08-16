@@ -1,25 +1,25 @@
 {
-    "post": {
-      "operationId": "createUser",
-      "summary": "Create a new user account",
-      "description": "This endpoint allows you to create a new user account for the application.",
-      "tags": [
-        "user"
-      ],
-      "requestBody": {
-        "$ref": "./components/user-create-body.json"
+  "post": {
+    "operationId": "createUser",
+    "summary": "Create a new user account",
+    "description": "This endpoint allows you to create a new user account for the application.",
+    "tags": ["user"],
+    "requestBody": {
+      "$ref": "./components/user-create-body.json"
+    },
+    "responses": {
+      "201": {
+        "$ref": "./responses/user-create-success.json"
       },
-      "responses": {
-        "201": {
-          "$ref": "./responses/user-create-response.json"
-        },
-        "400": {
-          "$ref": "./errors/validation-error.json"
-        },
-        "500": {
-          "$ref": "./errors/server-error.json"
-        }
+      "400": {
+        "$ref": "../standard-errors/validation-error.json"
+      },
+      "422": {
+        "$ref": "../standard-errors/unprocessable-entity.json"
+      },
+      "500": {
+        "$ref": "../standard-errors/internal-server-error.json"
       }
     }
   }
-  
+}

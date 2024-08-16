@@ -5,23 +5,18 @@
       "schema": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "User account name",
-            "example": "John Doe"
-          },
           "email": {
             "type": "string",
-            "description": "Email address for the new user account",
+            "description": "Email address of the user",
             "example": "johndoe@example.com"
           },
           "password": {
             "type": "string",
-            "description": "Password for the new user account",
+            "description": "Password for the user account",
             "example": "mypassword"
           }
         },
-        "required": ["name", "email", "password"]
+        "required": ["email", "password"]
       }
     }
   }

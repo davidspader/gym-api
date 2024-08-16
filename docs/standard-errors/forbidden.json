@@ -1,5 +1,5 @@
 {
-  "description": "Something went wrong on the server",
+  "description": "You do not have permission to access this resource",
   "content": {
     "application/json": {
       "schema": {
@@ -7,12 +7,10 @@
         "properties": {
           "error": {
             "type": "string",
-            "example": "An unexpected error occurred"
+            "example": "you do not have permission to access this resource"
           }
         },
-        "required": [
-          "error"
-        ]
+        "required": ["error"]
       }
     }
   }

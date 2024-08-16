@@ -1,0 +1,17 @@
+{
+  "description": "Something went wrong on the server",
+  "content": {
+    "application/json": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "an unexpected error occurred. Please try again later"
+          }
+        },
+        "required": ["error"]
+      }
+    }
+  }
+}

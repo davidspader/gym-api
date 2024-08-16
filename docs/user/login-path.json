@@ -1,0 +1,28 @@
+{
+  "post": {
+    "operationId": "loginUser",
+    "summary": "User login",
+    "description": "This endpoint allows a user to log in to the application.",
+    "tags": ["user"],
+    "requestBody": {
+      "$ref": "./components/login-body.json"
+    },
+    "responses": {
+      "200": {
+        "$ref": "./responses/login-success.json"
+      },
+      "400": {
+        "$ref": "../standard-errors/bad-request.json"
+      },
+      "401": {
+        "$ref": "../standard-errors/unauthorized.json"
+      },
+      "422": {
+        "$ref": "../standard-errors/unprocessable-entity.json"
+      },
+      "500": {
+        "$ref": "../standard-errors/internal-server-error.json"
+      }
+    }
+  }
+}

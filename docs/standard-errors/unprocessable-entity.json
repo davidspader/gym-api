@@ -1,5 +1,5 @@
 {
-  "description": "Cannot process the request because of validation errors",
+  "description": "The request could not be processed due to invalid input",
   "content": {
     "application/json": {
       "schema": {
@@ -7,12 +7,10 @@
         "properties": {
           "error": {
             "type": "string",
-            "example": "name is required and cannot be blank"
+            "example": "the request could not be processed"
           }
         },
-        "required": [
-          "error"
-        ]
+        "required": ["error"]
       }
     }
   }
