@@ -1,5 +1,5 @@
 {
-  "description": "Something went wrong on the server",
+  "description": "Cannot process the request because of validation errors",
   "content": {
     "application/json": {
       "schema": {
@@ -7,12 +7,10 @@
         "properties": {
           "error": {
             "type": "string",
-            "example": "An unexpected error occurred"
+            "example": "name is required and cannot be blank"
           }
         },
-        "required": [
-          "error"
-        ]
+        "required": ["error"]
       }
     }
   }
