@@ -153,7 +153,7 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if userID != userIDInToken {
-		err = errors.New("you cannot delete a user other than your own")
+		err = errors.New(responses.ErrMsgForbidden)
 		responses.SendError(w, http.StatusForbidden, err)
 		return
 	}

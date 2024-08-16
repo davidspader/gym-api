@@ -1,7 +1,7 @@
 {
-  "operationId": "updateUser",
-  "summary": "Update an existing user account",
-  "description": "This endpoint allows you to update an existing user account. Requires a Bearer token for authentication.",
+  "operationId": "deleteUser",
+  "summary": "Delete an existing user account",
+  "description": "This endpoint allows you to delete an existing user account. Requires a Bearer token for authentication.",
   "tags": ["user"],
   "security": [
     {
@@ -16,15 +16,12 @@
       "schema": {
         "type": "int64"
       },
-      "description": "The ID of the user to update"
+      "description": "The ID of the user to delete"
     }
   ],
-  "requestBody": {
-    "$ref": "./components/user-update-body.json"
-  },
   "responses": {
     "204": {
-      "description": "User updated successfully. No content returned."
+      "description": "User deleted successfully. No content returned."
     },
     "400": {
       "$ref": "../standard-errors/validation-error.json"

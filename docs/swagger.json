@@ -9,7 +9,12 @@
       "$ref": "./user/user-create-path.json"
     },
     "/users/{id}": {
-        "$ref": "./user/user-update-path.json"
+        "put": {
+          "$ref": "./user/user-update-path.json"
+        },
+        "delete": {
+          "$ref": "./user/user-delete-path.json"
+        }
     },
     "/auth/login": {
       "$ref": "./user/login-path.json"
